@@ -1,95 +1,84 @@
-import React from 'react';
-import { BrainCircuit, Recycle, Wrench } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { motion, useInView, useAnimation } from 'framer-motion';
+import { RocketLaunchIcon, CloudIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline';
 
 const features = [
   {
-    name: 'AI 駕駛分析平台',
-    description: '透過 VR 模擬器與即時數據回饋，我們的 AI 平台能精準分析駕駛行為，提供專業的路線與操控建議，最大化賽道表現。',
-    icon: BrainCircuit,
+    name: '入門級方程式賽車',
+    description: '我們打造兼具高性能、極致安全與合理成本的方程式賽車，是您踏入賽車運動的最佳夥伴。',
+    icon: RocketLaunchIcon,
   },
   {
-    name: '循環經濟實踐',
-    description: '從再生碳纖維車體到零件翻新再製，我們將永續理念貫徹在賽車的每一個細節中，打造高性能與低碳排的完美結合。',
-    icon: Recycle,
+    name: '雲端 AI 數據分析',
+    description: '透過我們強大的雲端 AI 平台，分析您的每一次過彎、每一次加速，將數據轉化為您在賽道上的絕對優勢。',
+    icon: CloudIcon,
   },
   {
-    name: '頂尖工程教育',
-    description: '我們不僅是一個賽車隊，更是一個培育未來工程領袖的搖籃。團隊成員在此獲得無可取代的實作經驗與跨領域協作能力。',
-    icon: Wrench,
+    name: '即時數據儀表板',
+    description: '在駕駛艙內，所有關鍵車輛數據與 AI 建議一目了然。我們提供高度客製化的即時儀表板，讓您全權掌控。',
+    icon: ComputerDesktopIcon,
   },
 ];
 
-export const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-export const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
 const FeatureSection = ({ inView }) => {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    } else {
+      controls.start('hidden');
+    }
+  }, [inView, controls]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
-    <div className="bg-gray-900 py-24 sm:py-32 w-full">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="w-full">
+      <div className="container mx-auto px-4 text-center">
+        <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          一個完整的賽車生態系
+        </h2>
+        <p className="mt-6 text-lg leading-8 text-gray-300 max-w-2xl mx-auto">
+          從硬體到軟體，從賽道到雲端，我們提供您所需要的一切，讓您專注於最純粹的駕駛樂趣。
+        </p>
         <motion.div
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+          className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-3"
           variants={containerVariants}
-          className="mx-auto max-w-2xl lg:text-center"
-        >
-          <motion.h2 variants={itemVariants} className="text-base font-semibold leading-7 text-brand-pink">Our Core Philosophies</motion.h2>
-          <motion.p variants={itemVariants} className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            驅動我們前進的三大核心
-          </motion.p>
-          <motion.p variants={itemVariants} className="mt-6 text-lg leading-8 text-gray-300">
-            我們相信，最極致的性能來自於最智慧的分析、最永續的實踐以及最扎實的工程教育。
-          </motion.p>
-        </motion.div>
-        <motion.div
           initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={containerVariants}
-          className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl"
+          animate={controls}
         >
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
-            {features.map((feature) => (
-              <motion.div
-                key={feature.name}
-                variants={itemVariants}
-                whileHover={{
-                  y: -8,
-                  boxShadow: "0 0 20px rgba(227, 29, 147, 0.5)",
-                  borderColor: "rgba(227, 29, 147, 0.7)",
-                }}
-                className="relative pl-16 p-4 rounded-lg border border-transparent"
-              >
-                <dt className="text-base font-semibold leading-7 text-white">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
-                    <feature.icon className="h-6 w-6 text-brand-gold" aria-hidden="true" />
-                  </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-400">{feature.description}</dd>
-              </motion.div>
-            ))}
-          </dl>
+          {features.map((feature) => (
+            <motion.div
+              key={feature.name}
+              className="flex flex-col items-center p-8 bg-gray-800/70 rounded-2xl shadow-lg transition-all duration-300 hover:bg-brand-pink/20 hover:shadow-brand-pink/30"
+              variants={itemVariants}
+            >
+              <feature.icon className="h-12 w-12 text-brand-pink" aria-hidden="true" />
+              <h3 className="mt-5 text-xl font-semibold leading-7 text-white">{feature.name}</h3>
+              <p className="mt-2 text-base leading-7 text-gray-400">{feature.description}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
