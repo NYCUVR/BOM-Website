@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   const navLinks = [
@@ -10,20 +11,26 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-gray-900 text-white shadow-md">
+    <nav className="bg-gray-900 text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="/" className="text-2xl font-bold text-brand-pink hover:opacity-80 transition-opacity duration-300">
+        <Link to="/" className="text-2xl font-bold text-brand-pink hover:opacity-80 transition-opacity duration-300">
           VR7.5 Racing
-        </a>
+        </Link>
         <div className="hidden md:flex space-x-6 items-center">
           {navLinks.map((link) => (
-            <a key={link.title} href={link.path} className="hover:text-brand-pink transition-colors duration-300">
+            <NavLink 
+              key={link.title} 
+              to={link.path} 
+              className={({ isActive }) =>
+                `transition-colors duration-300 ${isActive ? 'text-brand-pink' : 'hover:text-brand-pink'}`
+              }
+            >
               {link.title}
-            </a>
+            </NavLink>
           ))}
-          <a href="/contact" className="bg-brand-pink hover:bg-opacity-80 text-white font-bold py-2 px-4 rounded-md transition-all duration-300">
+          <Link to="/contact" className="bg-brand-pink hover:opacity-80 text-white font-bold py-2 px-4 rounded-md transition-all duration-300">
             聯絡我們
-          </a>
+          </Link>
         </div>
         {/* Mobile Menu Button (to be implemented later) */}
         <div className="md:hidden">

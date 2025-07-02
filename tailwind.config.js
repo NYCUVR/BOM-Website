@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'brand-pink': '#c91d94',
+        'brand-pink': '#e31d93',
+        'brand-gold': '#ffd100',
       },
     },
   },

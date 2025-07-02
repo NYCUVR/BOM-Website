@@ -39,7 +39,9 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} VR7.5 Racing Team. All Rights Reserved.</p>
-          <p className="mt-1">A student-led formula racing project.</p>
+          <p className="mt-1">
+            National Yang Ming Chiao Tung University
+          </p>
         </div>
       </div>
     </footer>
