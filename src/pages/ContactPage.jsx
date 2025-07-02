@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ClipboardDocumentCheckIcon, ShoppingCartIcon, ChartPieIcon, EnvelopeIcon, PhoneIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { ClipboardDocumentCheckIcon, ShoppingCartIcon, EnvelopeIcon, PhoneIcon, HeartIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
   { id: 'testDrive', name: '試駕申請', icon: ClipboardDocumentCheckIcon },
   { id: 'purchase', name: '購車專人', icon: ShoppingCartIcon },
-  { id: 'dataRequest', name: '索取分析資料', icon: ChartPieIcon },
   { id: 'sponsorship', name: '贊助我們', icon: HeartIcon },
 ];
 
@@ -93,31 +92,6 @@ const ContactPage = () => {
             <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">請求專人聯繫</button>
           </motion.form>
         );
-      case 'dataRequest':
-        return (
-          <motion.form key="dataRequest" onSubmit={handleSubmit} variants={formVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
-            <h3 className="text-2xl font-bold text-white">索取駕駛分析資料</h3>
-            <p className="text-gray-400">我們的數據分析服務是提升賽道表現的關鍵。索取範例資料，了解我們如何將數據轉化為勝利。
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput label="姓名" name="name" placeholder="您的姓名" />
-                <FormInput label="公司/研究單位名稱" name="company" placeholder="您的單位" />
-            </div>
-            <FormInput label="電子郵件" type="email" name="email" placeholder="you@example.com" />
-            <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">感興趣的數據類型（可複選）</label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-                    {['性能與圈速', '電池健康度', '空力效益', '底盤動態', '駕駛行為', '其他'].map(item => (
-                        <div key={item} className="flex items-center">
-                            <input id={item} name="data_type" type="checkbox" value={item} className="h-4 w-4 rounded border-gray-500 bg-gray-700 text-brand-pink focus:ring-brand-pink" />
-                            <label htmlFor={item} className="ml-2 text-sm text-gray-300">{item}</label>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">索取資料</button>
-          </motion.form>
-        );
       case 'sponsorship':
         return (
           <motion.form key="sponsorship" onSubmit={handleSubmit} variants={formVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
@@ -156,7 +130,7 @@ const ContactPage = () => {
         <header className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-extrabold text-white">聯絡我們</h1>
           <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
-            無論您是想親身體驗我們的賽車、洽談採購，或是對我們的數據分析服務感興趣，我們都期待您的來信。
+            無論您是想親身體驗我們的賽車、洽談採購，或是希望成為我們的贊助夥伴，我們都期待您的來信。
           </p>
         </header>
 
