@@ -1,92 +1,126 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useEffect, useRef } from 'react';
+import { motion, useInView, useAnimation } from 'framer-motion';
+import { GlobeAltIcon, WrenchScrewdriverIcon, BoltIcon, CpuChipIcon, ArrowTrendingUpIcon } from '@heroicons/react/24/outline';
 
 const timelineData = [
-  {
-    year: '2008-2020',
-    title: 'Formula Hybrid',
-    description: 'Once been to US to participate in formula hybrid.',
-  },
-  {
-    year: '2021',
-    title: 'VR5 – IC',
-    description: 'The first IC car after 10 years. Participated in FST. Established an administrative group responsible for securing sponsorships and managing external relations.',
-  },
-  {
-    year: '2022',
-    title: 'VR6 – EV',
-    description: 'Transitioned to developing electric vehicles (EVs). Formed a manufacturing group and appointed a chief engineer to oversee production progress.',
-  },
-  {
-    year: '2023',
-    title: 'VR7 – EV',
-    description: 'Established a new software and firmware group to focus on developing and maintaining vehicle software.',
-  },
-  {
-    year: '2024-2025',
-    title: 'VR7.5 – EV',
-    description: 'Implemented advanced software to collect precise vehicle data, enhancing overall vehicle control and performance. Upgraded the VR7 with enhancements to its chassis, software, and overall design.',
-  },
+    {
+        year: '2008',
+        title: 'Formula Hybrid',
+        description: ['曾前往美國參加油電混合動力方程式賽車。'],
+        icon: GlobeAltIcon,
+    },
+    {
+        year: '2021',
+        title: 'VR5 – 內燃機車 (IC)',
+        description: [
+            '社團重整重新出發',
+            '參加 FST 台灣學生方程式賽車聯賽。',
+            '成立行政管理團隊，負責尋求贊助和管理對外關係。'
+        ],
+        icon: WrenchScrewdriverIcon,
+    },
+    {
+        year: '2022',
+        title: 'VR6 – 電動車 (EV)',
+        description: [
+            '轉型開發電動車。',
+            '成立製造組，並任命一位總工程師來監督生產進度。'
+        ],
+        icon: BoltIcon,
+    },
+    {
+        year: '2023',
+        title: 'VR7 – 電動車 (EV)',
+        description: ['成立新的軟體與韌體組，專注於開發和維護車輛軟體。'],
+        icon: CpuChipIcon,
+    },
+    {
+        year: '2024-2025',
+        title: 'VR7.5 – 電動車 (EV)',
+        description: [
+            '導入先進軟體以收集精確的車輛數據，提升整體車輛控制與性能。',
+            '對 VR7 進行底盤、軟體和整體設計的升級。'
+        ],
+        icon: ArrowTrendingUpIcon,
+    }
 ];
 
-const TimelineEvent = ({ item, index }) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.5,
-  });
+const TimelineItem = ({ item, index }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.5 });
+    const controls = useAnimation();
+    const isEven = index % 2 === 0;
 
-  const variants = {
-    hidden: { 
-      opacity: 0, 
-      x: index % 2 === 0 ? -100 : 100 
-    },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.6 }
-    },
-  };
+    useEffect(() => {
+        if (isInView) {
+            controls.start("visible");
+        }
+    }, [isInView, controls]);
 
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={inView ? 'visible' : 'hidden'}
-      variants={variants}
-      className={`mb-8 flex justify-between items-center w-full ${index % 2 === 0 ? 'flex-row-reverse left-timeline' : 'right-timeline'}`}
-    >
-      <div className="order-1 w-5/12"></div>
-      <div className="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-12 h-12 rounded-full">
-        <h1 className="mx-auto font-semibold text-xl text-brand-gold">{item.year.split('-')[0]}</h1>
-      </div>
-      <div className="order-1 bg-gray-800 rounded-lg shadow-xl w-5/12 px-6 py-4 border border-brand-pink/50">
-        <h3 className="mb-3 font-bold text-white text-xl">{item.title}</h3>
-        <p className="text-sm leading-snug tracking-wide text-gray-300">
-          {item.description}
-        </p>
-      </div>
-    </motion.div>
-  );
+    const variants = {
+        hidden: { opacity: 0, x: isEven ? 100 : -100 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+    };
+
+    const CardContent = () => (
+        <div className={`bg-gray-800 rounded-lg shadow-xl px-6 py-4 ${isEven ? 'text-left' : 'text-right'}`}>
+            <div className={`flex items-center mb-2 ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>
+                <item.icon className={`w-8 h-8 text-brand-pink ${isEven ? 'mr-4' : 'ml-4'}`} />
+                <div>
+                    <p className="font-bold text-lg text-gray-300">{item.year}</p>
+                    <h3 className="font-bold text-xl text-white">{item.title}</h3>
+                </div>
+            </div>
+            <ul className={`list-disc text-gray-400 space-y-1 text-sm ${isEven ? 'list-inside' : 'text-left'}`}>
+                 {item.description.map((point, i) => (
+                    <li key={i}>{point}</li>
+                ))}
+            </ul>
+        </div>
+    );
+
+    return (
+        <div ref={ref} className="relative mb-8 flex justify-between items-center w-full">
+            {/* Left Side Container */}
+            <div className={`order-1 w-5/12 flex justify-end`}>
+                {!isEven && (
+                    <motion.div variants={variants} initial="hidden" animate={controls} className="w-full max-w-md">
+                        <CardContent />
+                    </motion.div>
+                )}
+            </div>
+
+            {/* Marker */}
+            <div className="z-20 flex items-center order-1 bg-gray-700 shadow-xl w-4 h-4 rounded-full border-2 border-brand-pink"></div>
+
+            {/* Right Side Container */}
+            <div className={`order-1 w-5/12 flex justify-start`}>
+                 {isEven && (
+                    <motion.div variants={variants} initial="hidden" animate={controls} className="w-full max-w-md">
+                        <CardContent />
+                    </motion.div>
+                )}
+            </div>
+        </div>
+    );
 };
+
 
 const TimelineSection = () => {
-  return (
-    <div className="bg-gray-900 py-20 text-white">
-      <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center mb-16">
-          Team History & Status
-        </h2>
-        <div className="relative wrap overflow-hidden p-10 h-full">
-          <div className="border-2-2 absolute border-opacity-20 border-brand-pink h-full border" style={{left: '50%'}}></div>
-          {timelineData.map((item, index) => (
-            <TimelineEvent key={index} item={item} index={index} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+    return (
+        <section className="bg-gray-900 text-white py-16 md:py-24">
+            <div className="container mx-auto px-4 md:px-0">
+                <div className="relative w-full max-w-4xl mx-auto">
+                    {/* Central line */}
+                    <div className="absolute left-1/2 -translate-x-1/2 h-full w-1 bg-gray-700"></div>
 
+                    {timelineData.map((item, index) => (
+                        <TimelineItem key={index} item={item} index={index} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
 
 export default TimelineSection; 
