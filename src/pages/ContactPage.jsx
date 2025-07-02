@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ClipboardDocumentCheckIcon, ShoppingCartIcon, ChartPieIcon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { ClipboardDocumentCheckIcon, ShoppingCartIcon, ChartPieIcon, EnvelopeIcon, PhoneIcon, HeartIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
   { id: 'testDrive', name: '試駕申請', icon: ClipboardDocumentCheckIcon },
   { id: 'purchase', name: '購車專人', icon: ShoppingCartIcon },
   { id: 'dataRequest', name: '索取分析資料', icon: ChartPieIcon },
+  { id: 'sponsorship', name: '贊助我們', icon: HeartIcon },
 ];
 
 const FormInput = ({ label, type = 'text', name, placeholder }) => (
@@ -115,6 +116,32 @@ const ContactPage = () => {
                 </div>
             </div>
             <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">索取資料</button>
+          </motion.form>
+        );
+      case 'sponsorship':
+        return (
+          <motion.form key="sponsorship" onSubmit={handleSubmit} variants={formVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
+            <h3 className="text-2xl font-bold text-white">成為我們的贊助夥伴</h3>
+            <p className="text-gray-400">感謝您對我們團隊的支持！您的每一份貢獻，都是我們前進的動力。</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormInput label="公司/單位名稱" name="company_name" placeholder="您的公司或單位名稱" />
+              <FormInput label="聯絡人姓名" name="contact_person" placeholder="您的姓名" />
+            </div>
+            <FormInput label="聯絡電子郵件" type="email" name="email" placeholder="you@example.com" />
+            <div>
+              <label htmlFor="logo" className="block text-sm font-medium text-gray-300 mb-1">公司 Logo 上傳</label>
+              <input
+                type="file"
+                name="logo"
+                id="logo"
+                accept="image/png, image/jpeg, image/svg+xml"
+                className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-pink file:text-white hover:file:bg-pink-600 transition cursor-pointer"
+              />
+              <p className="text-xs text-gray-500 mt-1">（此為模擬上傳，檔案不會實際儲存）</p>
+            </div>
+            <FormTextarea label="預計贊助的品項或金額" name="sponsorship_details" placeholder="例如：提供XX材料、贊助NT$50,000...等" />
+            <FormTextarea label="其他訊息或合作想法" name="other_message" placeholder="歡迎分享任何合作的可能性！" />
+            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">提交贊助意願</button>
           </motion.form>
         );
       default:
