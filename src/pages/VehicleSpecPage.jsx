@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BeakerIcon, BoltIcon, ShieldCheckIcon, Cog8ToothIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { BeakerIcon, BoltIcon, ShieldCheckIcon, Cog8ToothIcon, PaperAirplaneIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const performanceHighlights = [
   { name: '目標重量', value: '350 kg' },
@@ -112,20 +112,29 @@ const highlightData = [
 const HighlightsSection = () => {
   const [activeHighlight, setActiveHighlight] = useState(null);
 
+  const handleHotspotClick = (item) => {
+    // On mobile, this will toggle the highlight.
+    // On desktop, subsequent clicks on the same item won't re-trigger mouseEnter.
+    setActiveHighlight(item.id === activeHighlight?.id ? null : item);
+  }
+
   return (
     <div className="mb-16">
         <header className="text-center mb-12">
             <h2 className="text-4xl font-bold text-brand-gold">車輛設計亮點</h2>
-            <p className="mt-2 text-gray-400">將滑鼠懸停在熱點上以查看詳細資訊</p>
+            <p className="mt-2 text-gray-400 md:hidden">點擊熱點查看詳細資訊</p>
+            <p className="mt-2 text-gray-400 hidden md:block">將滑鼠懸停在熱點上以查看詳細資訊</p>
         </header>
-        <div className="relative w-full max-w-5xl mx-auto">
+
+        {/* Desktop View: Interactive Image */}
+        <div className="relative w-full max-w-5xl mx-auto hidden md:block">
             <img src="/vr7.5-highlights.webp" alt="Vehicle Highlights" className="w-full h-auto rounded-lg" />
             
             {highlightData.map((item) => (
                 <div 
                     key={item.id}
                     className="absolute"
-                    style={{ top: item.position.top, left: item.position.left }}
+                    style={{ top: item.position.top, left: item.position.left, transform: 'translate(-50%, -50%)' }}
                     onMouseEnter={() => setActiveHighlight(item)}
                     onMouseLeave={() => setActiveHighlight(null)}
                 >
@@ -142,10 +151,10 @@ const HighlightsSection = () => {
             <AnimatePresence>
                 {activeHighlight && (
                     <motion.div
-                        className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center pointer-events-none p-4"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
                     >
                         <div className="bg-black/80 backdrop-blur-sm p-6 rounded-lg shadow-2xl max-w-sm text-center border border-brand-pink/50">
                             <h3 className="text-2xl font-bold text-brand-pink mb-2">{activeHighlight.title}</h3>
@@ -154,6 +163,43 @@ const HighlightsSection = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
+        </div>
+
+        {/* Mobile View: Accordion List */}
+        <div className="w-full max-w-2xl mx-auto md:hidden space-y-4">
+          {highlightData.map(item => (
+            <div key={item.id} className="bg-gray-800 rounded-lg overflow-hidden">
+              <button
+                onClick={() => handleHotspotClick(item)}
+                className="w-full text-left p-4 flex justify-between items-center"
+              >
+                <span className="font-bold text-white">{item.title}</span>
+                <motion.div
+                  animate={{ rotate: activeHighlight?.id === item.id ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDownIcon className="h-6 w-6 text-brand-pink" />
+                </motion.div>
+              </button>
+              <AnimatePresence>
+                {activeHighlight?.id === item.id && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: 'auto' },
+                      collapsed: { opacity: 0, height: 0 }
+                    }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="px-4 pb-4"
+                  >
+                    <p className="text-gray-300">{item.description}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
         </div>
     </div>
   )
@@ -333,9 +379,25 @@ const TechDetailsSection = () => {
 
     return (
         <div className="bg-gray-800/50 p-4 sm:p-8 rounded-xl shadow-2xl">
+            {/* Mobile: Horizontal Scroll */}
+            <div className="md:hidden mb-6">
+                <div className="flex space-x-2 overflow-x-auto pb-4 -mx-4 px-4">
+                {Object.entries(techDetailsData).map(([key, { icon: Icon, title }]) => (
+                    <button
+                        key={key}
+                        onClick={() => setActiveTab(key)}
+                        className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-2 ${activeTab === key ? 'bg-brand-pink text-white' : 'bg-gray-700 text-gray-200'}`}
+                    >
+                        <Icon className="h-5 w-5"/>
+                        <span>{title}</span>
+                    </button>
+                ))}
+                </div>
+            </div>
+
             <div className="flex flex-col md:flex-row gap-8">
-                {/* Sidebar */}
-                <aside className="md:w-1/4 lg:w-1/5">
+                {/* Desktop Sidebar */}
+                <aside className="hidden md:block md:w-1/4 lg:w-1/5">
                     <ul className="space-y-2">
                         {Object.entries(techDetailsData).map(([key, { icon: Icon, title }]) => (
                             <li key={key}>
@@ -352,7 +414,7 @@ const TechDetailsSection = () => {
                 </aside>
 
                 {/* Content */}
-                <main className="md:w-3/4 lg:w-4/5">
+                <main className="w-full">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeTab}

@@ -1,12 +1,21 @@
 import React from 'react';
+import { FaGithub, FaLinkedin, FaInstagram, FaFacebook } from 'react-icons/fa';
 
 const Footer = () => {
   // You can replace these with your actual social media links
   const socialLinks = {
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-    instagram: 'https://instagram.com',
+    facebook: 'https://www.facebook.com/NycuVulpesRacing/',
+    instagram: 'https://www.instagram.com/nycu_vulpes_racing/',
+    github: 'https://github.com/NYCUVR/BOM-Website',
+    linkedin: null, // Add your LinkedIn URL here or leave it null
   };
+
+  const icons = {
+      facebook: <FaFacebook size={24} />,
+      instagram: <FaInstagram size={24} />,
+      github: <FaGithub size={24} />,
+      linkedin: <FaLinkedin size={24} />,
+  }
 
   return (
     <footer className="bg-gray-900 text-gray-400">
@@ -16,25 +25,17 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-white">VR7.5 Racing Team</h3>
             <p className="mt-1">創新源於賽道，智慧定義未來</p>
           </div>
-          <div className="flex space-x-4">
-            {socialLinks.github && (
-              <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                {/* Placeholder for GitHub Icon */}
-                <span className="text-2xl">G</span>
-              </a>
-            )}
-            {socialLinks.linkedin && (
-              <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                {/* Placeholder for LinkedIn Icon */}
-                <span className="text-2xl">L</span>
-              </a>
-            )}
-            {socialLinks.instagram && (
-              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                {/* Placeholder for Instagram Icon */}
-                <span className="text-2xl">I</span>
-              </a>
-            )}
+          <div className="flex space-x-6">
+            {Object.entries(socialLinks).map(([key, value]) => {
+                if(value) {
+                    return (
+                        <a key={key} href={value} target="_blank" rel="noopener noreferrer" className="hover:text-brand-pink transition-colors duration-300">
+                            {icons[key]}
+                        </a>
+                    )
+                }
+                return null;
+            })}
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
