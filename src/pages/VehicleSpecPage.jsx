@@ -1,0 +1,153 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const performanceHighlights = [
+  { name: '目標重量', value: '350 kg' },
+  { name: '0-75 公尺加速', value: '5.5s' },
+  { name: '橫向抓地力', value: '2.5 g' },
+];
+
+const sensorSuite = [
+  '來自輪速的即時回饋',
+  '懸吊行程',
+  '轉向角度',
+  'GPS',
+];
+
+const powertrain = [
+  { name: '電動馬達', value: '80 kW' },
+  { name: '電池系統', value: '396 V (含 BMS)' },
+];
+
+const chassisStructure = [
+  '帶有複合材料車殼的鋼管車架',
+  '剛性優化的輕量化設計',
+];
+
+const massBreakdown = {
+  chassis: [
+    { name: '車架', value: '50.8 kg' },
+    { name: '地板關閉件', value: '0.648 kg' },
+    { name: '防火牆', value: '0.378 kg' },
+    { name: 'IA', value: '1.29 kg' },
+    { name: 'AIP', value: '2.36 kg' },
+    { name: '頭部約束裝置', value: '0.42 kg' },
+    { name: '踏板', value: '3.216 kg' },
+    { name: '座椅', value: '1.772 kg' },
+    { name: '安全帶', value: '1.5 kg' },
+    { name: '方向盤', value: '0.245 kg' },
+    { name: '快拆裝置', value: '0.58 kg' },
+  ],
+  aero: [
+    { name: '鼻翼', value: '26 kg' },
+    { name: '前翼', value: '5.8 kg' },
+    { name: '後翼', value: '9 kg' },
+    { name: '側板', value: '0.9 kg' },
+  ],
+  suspension: [
+    { name: '直立件', value: '2.582 kg' },
+    { name: '輪轂', value: '2.37 kg' },
+    { name: 'A臂', value: '3.76 kg' },
+    { name: '輪圈', value: '14.78 kg' },
+    { name: '輪胎', value: '13.73 kg' },
+    { name: '卡鉗與碟盤', value: '4.76 kg' },
+    { name: '搖臂', value: '1.052 kg' },
+    { name: '避震器', value: '11.04 kg' },
+    { name: '轉向齒條', value: '3.24 kg' },
+    { name: '轉向臂', value: '0.42 kg' },
+    { name: '轉向柱', value: '2.53 kg' },
+  ],
+  powertrain: [
+    { name: '馬達', value: '13.5 kg' },
+    { name: '差速器', value: '3.2 kg' },
+    { name: '馬達與差速器連接件', value: '8.4 kg' },
+    { name: '控制器', value: '7.5 kg' },
+    { name: '電池箱', value: '126.55 kg' },
+    { name: '高壓電子盒', value: '1.213 kg' },
+    { name: '散熱器', value: '4 kg' },
+    { name: '傳動軸', value: '5 kg' },
+  ],
+};
+
+// const motion.dev = ({ title, children }) => (
+//     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+//         <h3 className="text-2xl font-bold text-brand-pink mb-4 border-b border-brand-pink/30 pb-2">{title}</h3>
+//         {children}
+//     </div>
+// );
+
+const VehicleSpecPage = () => {
+  return (
+    <div className="bg-gray-900 text-white min-h-screen">
+      <div className="container mx-auto px-6 py-16 md:py-24">
+
+        <header className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white">VR7.5 車輛規格</h1>
+          <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
+            深入了解構成我們賽車的每一個精密組件與性能指標。
+          </p>
+        </header>
+
+        {/* Performance Highlights motion.dev */}
+        <div className="bg-gray-800/50 p-8 rounded-xl shadow-2xl mb-16">
+            <h2 className="text-4xl font-bold text-center mb-8 text-brand-gold">性能概覽</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <motion.dev title="性能亮點">
+                    <ul className="space-y-2">
+                        {performanceHighlights.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono font-bold">{item.value}</span></li>)}
+                    </ul>
+                </motion.dev>
+                <motion.dev title="感測器套件">
+                    <ul className="space-y-2 list-disc list-inside">
+                        {sensorSuite.map(item => <li key={item}>{item}</li>)}
+                    </ul>
+                </motion.dev>
+                <motion.dev title="動力總成">
+                     <ul className="space-y-2">
+                        {powertrain.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono font-bold">{item.value}</span></li>)}
+                    </ul>
+                </motion.dev>
+                <motion.dev title="底盤與結構">
+                    <ul className="space-y-2 list-disc list-inside">
+                        {chassisStructure.map(item => <li key={item}>{item}</li>)}
+                    </ul>
+                </motion.dev>
+            </div>
+        </div>
+
+        {/* Mass Breakdown motion.dev */}
+        <div>
+            <header className="text-center mb-12">
+                <h2 className="text-4xl font-bold text-brand-gold">重量詳細分解</h2>
+                <p className="mt-2 text-2xl font-mono text-brand-pink bg-gray-800 inline-block px-4 py-1 rounded-md">無駕駛員總重: 382.36 kg</p>
+            </header>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <motion.dev title="底盤">
+                    <ul className="space-y-1 text-sm">
+                        {massBreakdown.chassis.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
+                    </ul>
+                </motion.dev>
+                <motion.dev title="空氣動力學">
+                    <ul className="space-y-1 text-sm">
+                        {massBreakdown.aero.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
+                    </ul>
+                </motion.dev>
+                <motion.dev title="懸吊系統">
+                     <ul className="space-y-1 text-sm">
+                        {massBreakdown.suspension.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
+                    </ul>
+                </motion.dev>
+                <motion.dev title="動力總成">
+                    <ul className="space-y-1 text-sm">
+                        {massBreakdown.powertrain.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
+                    </ul>
+                </motion.dev>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default VehicleSpecPage; 

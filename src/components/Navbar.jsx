@@ -3,11 +3,10 @@ import { Link, NavLink } from 'react-router-dom';
 
 const navLinks = [
   { name: '首頁', href: '/' },
-  { name: '關於團隊', href: '/about' },
-  { name: '賽車介紹', href: '/car' },
-  { name: '技術與數據服務', href: '/services' },
+  { name: '關於我們', href: '/about' },
+  { name: '產品與服務', href: '/products' },
+  { name: '車輛規格', href: '/specs' },
   { name: '合作夥伴', href: '/partners' },
-  { name: '最新動態', href: '/news' },
 ];
 
 const Navbar = () => {

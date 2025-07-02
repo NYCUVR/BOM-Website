@@ -4,10 +4,11 @@ import MainLayout from './components/MainLayout';
 import Homepage from './pages/Homepage';
 import AboutPage from './pages/AboutPage';
 import CarPage from './pages/CarPage';
-import ServicesPage from './pages/ServicesPage';
+import ProductsPage from './pages/ProductsPage';
+import VehicleSpecPage from './pages/VehicleSpecPage';
 import PartnersPage from './pages/PartnersPage';
-import NewsPage from './pages/NewsPage';
 import ContactPage from './pages/ContactPage';
+import { Home } from 'lucide-react';
 // We will import other pages here as we create them
 
 function App() {
@@ -17,14 +18,13 @@ function App() {
         <MainLayout>
           <AnimatePresence mode="wait">
             <Routes>
-              <Route path="/" element={<Homepage />} />
+              <Route path="/" element={<Homepage />}/>
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/car" element={<CarPage />} />
-              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/specs" element={<VehicleSpecPage />} />
               <Route path="/partners" element={<PartnersPage />} />
-              <Route path="/news" element={<NewsPage />} />
               <Route path="/contact" element={<ContactPage />} />
-              {/* Other routes will be added here */}
+              <Route path="/car" element={<CarPage />} />
             </Routes>
           </AnimatePresence>
         </MainLayout>
