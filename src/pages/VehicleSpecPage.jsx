@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const performanceHighlights = [
   { name: '目標重量', value: '350 kg' },
@@ -69,12 +69,107 @@ const massBreakdown = {
   ],
 };
 
-// const motion.dev = ({ title, children }) => (
-//     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-//         <h3 className="text-2xl font-bold text-brand-pink mb-4 border-b border-brand-pink/30 pb-2">{title}</h3>
-//         {children}
-//     </div>
-// );
+const highlightData = [
+  {
+    id: 1,
+    title: '扭轉剛性提升',
+    description: '底盤扭轉剛性提升 37.8%，大幅增強過彎穩定性與響應速度。',
+    position: { top: '25%', left: '65%' },
+  },
+  {
+    id: 2,
+    title: '軸距縮短',
+    description: '軸距縮短至 1570mm，提升車輛在狹窄彎道中的靈活性與敏捷度。',
+    position: { top: '45%', left: '75%' },
+  },
+  {
+    id: 3,
+    title: '一體式鼻翼',
+    description: '與去年的兩件式設計相比，一體式鼻翼提供更大的下壓力與穩定性。',
+    position: { top: '85%', left: '70%' },
+  },
+  {
+    id: 4,
+    title: '前拉桿懸吊',
+    description: '採用前拉桿設計，有效減少懸吊系統所需空間，優化內部佈局。',
+    position: { top: '80%', left: '35%' },
+  },
+  {
+    id: 5,
+    title: '底盤加寬',
+    description: '加寬底盤中部，以更低地放置高壓組件，有效降低車輛重心。',
+    position: { top: '65%', left: '15%' },
+  },
+  {
+    id: 6,
+    title: '輕量化馬達',
+    description: '與去年相比，馬達與差速器總重減輕超過 50 公斤，顯著提升加速性能。',
+    position: { top: '40%', left: '5%' },
+  },
+];
+
+const HighlightsSection = () => {
+  const [activeHighlight, setActiveHighlight] = useState(null);
+
+  return (
+    <div className="mb-16">
+        <header className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-brand-gold">車輛設計亮點</h2>
+            <p className="mt-2 text-gray-400">將滑鼠懸停在熱點上以查看詳細資訊</p>
+        </header>
+        <div className="relative w-full max-w-5xl mx-auto">
+            <img src="/vr7.5-highlights.png" alt="Vehicle Highlights" className="w-full h-auto rounded-lg" />
+            
+            {highlightData.map((item) => (
+                <div 
+                    key={item.id}
+                    className="absolute"
+                    style={{ top: item.position.top, left: item.position.left }}
+                    onMouseEnter={() => setActiveHighlight(item)}
+                    onMouseLeave={() => setActiveHighlight(null)}
+                >
+                    <div className="w-6 h-6 rounded-full bg-brand-pink ring-4 ring-pink-500/50 cursor-pointer transform transition-transform hover:scale-125">
+                        <motion.div 
+                            className="w-full h-full rounded-full bg-brand-pink"
+                            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                    </div>
+                </div>
+            ))}
+
+            <AnimatePresence>
+                {activeHighlight && (
+                    <motion.div
+                        className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        <div className="bg-black/80 backdrop-blur-sm p-6 rounded-lg shadow-2xl max-w-sm text-center border border-brand-pink/50">
+                            <h3 className="text-2xl font-bold text-brand-pink mb-2">{activeHighlight.title}</h3>
+                            <p className="text-white">{activeHighlight.description}</p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    </div>
+  )
+}
+
+const Section = ({ title, children }) => (
+    <motion.div 
+        className="bg-gray-800 p-6 rounded-lg shadow-lg"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.5 }}
+    >
+        <h3 className="text-2xl font-bold text-brand-pink mb-4 border-b border-brand-pink/30 pb-2">{title}</h3>
+        {children}
+    </motion.div>
+);
 
 const VehicleSpecPage = () => {
   return (
@@ -87,61 +182,63 @@ const VehicleSpecPage = () => {
             深入了解構成我們賽車的每一個精密組件與性能指標。
           </p>
         </header>
+        
+        <HighlightsSection />
 
-        {/* Performance Highlights motion.dev */}
+        {/* Performance Highlights Section */}
         <div className="bg-gray-800/50 p-8 rounded-xl shadow-2xl mb-16">
             <h2 className="text-4xl font-bold text-center mb-8 text-brand-gold">性能概覽</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <motion.dev title="性能亮點">
+                <Section title="性能亮點">
                     <ul className="space-y-2">
                         {performanceHighlights.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono font-bold">{item.value}</span></li>)}
                     </ul>
-                </motion.dev>
-                <motion.dev title="感測器套件">
+                </Section>
+                <Section title="感測器套件">
                     <ul className="space-y-2 list-disc list-inside">
                         {sensorSuite.map(item => <li key={item}>{item}</li>)}
                     </ul>
-                </motion.dev>
-                <motion.dev title="動力總成">
+                </Section>
+                <Section title="動力總成">
                      <ul className="space-y-2">
                         {powertrain.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono font-bold">{item.value}</span></li>)}
                     </ul>
-                </motion.dev>
-                <motion.dev title="底盤與結構">
+                </Section>
+                <Section title="底盤與結構">
                     <ul className="space-y-2 list-disc list-inside">
                         {chassisStructure.map(item => <li key={item}>{item}</li>)}
                     </ul>
-                </motion.dev>
+                </Section>
             </div>
         </div>
 
-        {/* Mass Breakdown motion.dev */}
+        {/* Mass Breakdown Section */}
         <div>
             <header className="text-center mb-12">
                 <h2 className="text-4xl font-bold text-brand-gold">重量詳細分解</h2>
                 <p className="mt-2 text-2xl font-mono text-brand-pink bg-gray-800 inline-block px-4 py-1 rounded-md">無駕駛員總重: 382.36 kg</p>
             </header>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <motion.dev title="底盤">
+                <Section title="底盤">
                     <ul className="space-y-1 text-sm">
                         {massBreakdown.chassis.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
                     </ul>
-                </motion.dev>
-                <motion.dev title="空氣動力學">
+                </Section>
+                <Section title="空氣動力學">
                     <ul className="space-y-1 text-sm">
                         {massBreakdown.aero.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
                     </ul>
-                </motion.dev>
-                <motion.dev title="懸吊系統">
+                </Section>
+                <Section title="懸吊系統">
                      <ul className="space-y-1 text-sm">
                         {massBreakdown.suspension.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
                     </ul>
-                </motion.dev>
-                <motion.dev title="動力總成">
+                </Section>
+                <Section title="動力總成">
                     <ul className="space-y-1 text-sm">
                         {massBreakdown.powertrain.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
                     </ul>
-                </motion.dev>
+                </Section>
             </div>
         </div>
 
