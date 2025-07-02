@@ -68,7 +68,7 @@ const FeatureSection = ({ inView }) => {
           {features.map((feature) => (
             <motion.div
               key={feature.name}
-              className="flex flex-col items-center p-8 bg-gray-800/70 rounded-2xl shadow-lg transition-all duration-300 hover:bg-brand-pink/20 hover:shadow-brand-pink/30"
+              className="flex flex-col items-center p-8 bg-gray-800/70 rounded-2xl shadow-lg transition-all duration-300 hover:bg-brand-pink/20 hover:shadow-brand-pink/50"
               variants={itemVariants}
             >
               <feature.icon className="h-12 w-12 text-brand-pink" aria-hidden="true" />
