@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrainCircuit, Recycle, Wrench } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const features = [
   {
@@ -19,23 +20,63 @@ const features = [
   },
 ];
 
-const FeatureSection = () => {
+export const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+export const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
+const FeatureSection = ({ inView }) => {
   return (
-    <div className="bg-gray-900 py-24 sm:py-32">
+    <div className="bg-gray-900 py-24 sm:py-32 w-full">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-brand-pink">Our Core Philosophies</h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <motion.div
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+          variants={containerVariants}
+          className="mx-auto max-w-2xl lg:text-center"
+        >
+          <motion.h2 variants={itemVariants} className="text-base font-semibold leading-7 text-brand-pink">Our Core Philosophies</motion.h2>
+          <motion.p variants={itemVariants} className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             驅動我們前進的三大核心
-          </p>
-          <p className="mt-6 text-lg leading-8 text-gray-300">
+          </motion.p>
+          <motion.p variants={itemVariants} className="mt-6 text-lg leading-8 text-gray-300">
             我們相信，最極致的性能來自於最智慧的分析、最永續的實踐以及最扎實的工程教育。
-          </p>
-        </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+          </motion.p>
+        </motion.div>
+        <motion.div
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+          variants={containerVariants}
+          className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl"
+        >
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
             {features.map((feature) => (
-              <div key={feature.name} className="relative pl-16">
+              <motion.div
+                key={feature.name}
+                variants={itemVariants}
+                whileHover={{
+                  y: -8,
+                  boxShadow: "0 0 20px rgba(227, 29, 147, 0.5)",
+                  borderColor: "rgba(227, 29, 147, 0.7)",
+                }}
+                className="relative pl-16 p-4 rounded-lg border border-transparent"
+              >
                 <dt className="text-base font-semibold leading-7 text-white">
                   <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
                     <feature.icon className="h-6 w-6 text-brand-gold" aria-hidden="true" />
@@ -43,10 +84,10 @@ const FeatureSection = () => {
                   {feature.name}
                 </dt>
                 <dd className="mt-2 text-base leading-7 text-gray-400">{feature.description}</dd>
-              </div>
+              </motion.div>
             ))}
           </dl>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

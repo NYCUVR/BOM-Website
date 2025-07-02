@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { MotionConfig, AnimatePresence } from 'framer-motion';
 import MainLayout from './components/MainLayout';
 import Homepage from './pages/Homepage';
 import AboutPage from './pages/AboutPage';
@@ -12,18 +13,22 @@ import ContactPage from './pages/ContactPage';
 function App() {
   return (
     <Router>
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/car" element={<CarPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/partners" element={<PartnersPage />} />
-          <Route path="/news" element={<NewsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          {/* Other routes will be added here */}
-        </Routes>
-      </MainLayout>
+      <MotionConfig transition={{ duration: 0.5, ease: 'easeInOut' }}>
+        <MainLayout>
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/car" element={<CarPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/partners" element={<PartnersPage />} />
+              <Route path="/news" element={<NewsPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              {/* Other routes will be added here */}
+            </Routes>
+          </AnimatePresence>
+        </MainLayout>
+      </MotionConfig>
     </Router>
   );
 }
