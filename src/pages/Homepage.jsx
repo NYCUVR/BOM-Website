@@ -6,6 +6,7 @@ import { EffectFade, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
+import { lerp } from 'three/src/math/MathUtils';
 
 import FeatureSection from '../components/FeatureSection';
 
@@ -39,13 +40,21 @@ function Experience() {
   const scroll = useScroll();
   const modelRef = useRef();
 
-  useFrame(() => {
-    // Animate the 3D model based on scroll
+  useFrame((state, delta) => {
+    // Get the range for the third page (features section)
+    const featureRange = scroll.range(2 / 3, 1 / 3);
+
+    // Determine if the feature section is in view
+    setFeatureInView(featureRange > 0);
+
+    // Animate the 3D model
     if (modelRef.current) {
-      modelRef.current.rotation.y = scroll.offset * Math.PI;
+        // When scrolling into the feature section, smoothly interpolate rotation back to 0
+        const targetRotation = featureRange > 0 ? 0 : scroll.offset * Math.PI;
+
+        // Use lerp for a smooth transition
+        modelRef.current.rotation.y = lerp(modelRef.current.rotation.y, targetRotation, 0.1);
     }
-    // Check if the feature section is in view (it's on the 3rd page)
-    setFeatureInView(scroll.visible(2/3, 1/3));
   });
 
   return (
