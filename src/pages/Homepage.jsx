@@ -7,11 +7,15 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
 import { lerp } from 'three/src/math/MathUtils';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import FeatureSection from '../components/FeatureSection';
 import CtaSection from '../components/CtaSection';
 import { CarModel } from '../components/CarModel';
 import PlaceholderModel from '../components/PlaceholderModel';
+import { CogIcon, BeakerIcon, CpuChipIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 
 // This component checks for the model and renders it, or a fallback.
 function ModelManager() {
@@ -77,19 +81,20 @@ const slideImages = [
 ];
 
 // This component contains all the 3D and HTML scroll content
-function Experience() {
+function Experience({ isMobile, pages }) {
+  const { t } = useTranslation();
   const [featureInView, setFeatureInView] = useState(false);
   const [ctaInView, setCtaInView] = useState(false);
   const scroll = useScroll();
   const modelRef = useRef();
 
   useFrame((state, delta) => {
-    // Page 3: CTA Section (from 2/4 to 3/4 of scroll)
-    const ctaRange = scroll.range(2 / 4, 1 / 4);
+    // Page 3: CTA Section
+    const ctaRange = scroll.range(2 / pages, 1 / pages);
     setCtaInView(ctaRange > 0);
 
-    // Page 4: Feature Section (from 3/4 to 4/4 of scroll)
-    const featureRange = scroll.range(3 / 4, 1 / 4);
+    // Page 4: Feature Section
+    const featureRange = scroll.range(3 / pages, (pages - 3) / pages);
     setFeatureInView(featureRange > 0);
 
     // Animate the 3D model
@@ -109,7 +114,7 @@ function Experience() {
 
       {/* HTML Content overlay */}
       <Scroll html>
-        <div className="w-screen">
+        <div className="w-full">
           {/* Page 1: Hero Section */}
           <div className="relative h-screen">
              <Swiper
@@ -127,19 +132,19 @@ function Experience() {
               </Swiper>
               <div className="absolute inset-0 bg-black opacity-60 z-20"></div>
               <div className="relative h-full flex flex-col justify-center items-center text-center px-4 z-30">
-                  <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white">您的第一台方程式賽車</h1>
-                  <h2 className="text-5xl md:text-7xl font-bold text-brand-pink mt-2">從這裡開始</h2>
+                  <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white">{t('homepage.hero_title_1')}</h1>
+                  <h2 className="text-5xl md:text-7xl font-bold text-brand-pink mt-2">{t('homepage.hero_title_2')}</h2>
                   <p className="mt-8 max-w-2xl mx-auto text-lg text-gray-300">
-                    我們致力於打造高性能、高安全且易於駕馭的入門級方程式賽車，結合雲端智能分析，讓每位愛好者都能實現賽道夢想。
+                    {t('homepage.hero_desc')}
                   </p>
               </div>
           </div>
 
           {/* Page 2: Introductory text */}
           <div className="h-screen flex flex-col justify-center items-center text-center p-8">
-             <h2 className="text-4xl font-bold text-white mb-4">不只是製造，更是賦能</h2>
+             <h2 className="text-4xl font-bold text-white mb-4">{t('homepage.intro_title')}</h2>
              <p className="max-w-3xl text-gray-300">
-                每一台賽車都搭載了我們的核心技術：連接雲端 AI 的智慧大腦。它不僅是您的座駕，更是您的專屬教練與工程師，陪您一同成長，發掘潛能極限。
+                {t('homepage.intro_desc')}
              </p>
           </div>
 
@@ -149,7 +154,14 @@ function Experience() {
           </div>
 
           {/* Page 4: Feature Section */}
-          <div className="h-screen flex items-center">
+          <div
+            className="flex"
+            style={{
+              height: isMobile ? '150vh' : '100vh',
+              alignItems: isMobile ? 'flex-start' : 'center',
+              paddingTop: isMobile ? '10rem' : '0',
+            }}
+          >
             <FeatureSection inView={featureInView} />
           </div>
         </div>
@@ -159,18 +171,27 @@ function Experience() {
 }
 
 const Homepage = () => {
-  return (
-    <div className="absolute top-0 left-0 w-full h-full">
-      <Canvas shadows camera={{ position: [0, 0, 8] }}>
-        <ResponsiveCamera />
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow />
-        <ScrollControls pages={4} damping={0.1}>
-          <Experience />
-        </ScrollControls>
-      </Canvas>
-    </div>
-  );
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const pages = isMobile ? 4.5 : 4;
+
+    return (
+        <div className="w-full h-screen bg-gray-900">
+            <Canvas>
+                <ScrollControls pages={pages} damping={0.3}>
+                    <Experience isMobile={isMobile} pages={pages} />
+                    <ResponsiveCamera />
+                </ScrollControls>
+            </Canvas>
+        </div>
+    );
 };
 
 export default Homepage; 

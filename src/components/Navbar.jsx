@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, LanguageIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const navLinks = [
-  { name: '首頁', href: '/' },
-  { name: '關於我們', href: '/about' },
-  { name: '產品與服務', href: '/products' },
-  { name: '車輛規格', href: '/specs' },
-  { name: '合作夥伴', href: '/partners' },
+  { name: 'navbar.home', href: '/' },
+  { name: 'navbar.about', href: '/about' },
+  { name: 'navbar.products', href: '/products' },
+  { name: 'navbar.specs', href: '/specs' },
+  { name: 'navbar.partners', href: '/partners' },
 ];
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
   const auth = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     auth.logout(() => navigate('/'));
     setIsMenuOpen(false);
+  }
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'zh-TW' : 'en';
+    i18n.changeLanguage(newLang);
   }
 
   const mobileLinkClass = "block text-3xl font-bold text-center text-white py-4 hover:bg-brand-pink transition-colors duration-300";
@@ -52,22 +59,29 @@ const Navbar = () => {
                   end={link.href === '/'}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {link.name}
+                  {t(link.name)}
                 </NavLink>
               ))}
+              <button
+                onClick={toggleLanguage}
+                className="p-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md"
+                aria-label="Toggle language"
+              >
+                <LanguageIcon className="h-6 w-6" />
+              </button>
               {auth.user ? (
                 <>
                   <Link
                     to="/dashboard"
                     className="px-4 py-2 bg-brand-pink text-white rounded-md hover:bg-brand-gold transition-colors duration-300 text-sm font-medium"
                   >
-                    儀表板
+                    {t('navbar.dashboard')}
                   </Link>
                   <button
                     onClick={handleLogout}
                     className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-300 text-sm font-medium"
                   >
-                    登出
+                    {t('navbar.logout')}
                   </button>
                 </>
               ) : (
@@ -76,13 +90,20 @@ const Navbar = () => {
                   className="px-4 py-2 bg-brand-pink text-white rounded-md hover:bg-brand-gold transition-colors duration-300 text-sm font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  登入
+                  {t('navbar.login')}
                 </Link>
               )}
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden flex items-center gap-2">
+                <button
+                    onClick={toggleLanguage}
+                    className="text-white focus:outline-none p-2"
+                    aria-label="Toggle language"
+                >
+                    <LanguageIcon className="h-8 w-8" />
+                </button>
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="text-white focus:outline-none"
@@ -114,7 +135,7 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                   end={link.href === '/'}
                 >
-                  {link.name}
+                  {t(link.name)}
                 </NavLink>
               ))}
               {auth.user ? (
@@ -124,13 +145,13 @@ const Navbar = () => {
                       className={`${mobileLinkClass} mt-8 bg-brand-pink rounded-lg w-3/4`}
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      儀表板
+                      {t('navbar.dashboard')}
                     </Link>
                     <button
                       onClick={handleLogout}
                       className={`${mobileLinkClass} mt-4 bg-gray-600 rounded-lg w-3/4`}
                     >
-                      登出
+                      {t('navbar.logout')}
                     </button>
                 </>
               ) : (
@@ -139,7 +160,7 @@ const Navbar = () => {
                     className={`${mobileLinkClass} mt-8 bg-brand-pink rounded-lg w-3/4`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    登入
+                    {t('navbar.login')}
                   </Link>
               )}
             </div>

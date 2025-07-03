@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
+import { useTranslation } from 'react-i18next';
 
 import { CogIcon, ChartBarIcon, WrenchScrewdriverIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import AiPlanComparison from '../components/AiPlanComparison';
@@ -78,20 +79,21 @@ const ServiceSection = ({ icon: Icon, title, children, visual, reverse = false }
 );
 
 const ProductsPage = () => {
+  const { t } = useTranslation();
   return (
     <div className="bg-gray-900 text-white min-h-screen">
       <div className="container mx-auto px-6 py-16 md:py-24 space-y-24">
         
         <header className="text-center">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white">產品與服務</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white">{t('products_page.header_title')}</h1>
           <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
-            我們提供一個從硬體到軟體，從購買到維護的完整賽車生態系，旨在為客戶掃除一切障礙，專注於追求速度與勝利。
+            {t('products_page.header_desc')}
           </p>
         </header>
 
         {/* Vehicle Showcase */}
         <section>
-          <h2 className="text-3xl font-bold text-center mb-12">VR7.5 實車鑑賞</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{t('products_page.gallery_title')}</h2>
           <CarGallery />
         </section>
 
@@ -99,44 +101,44 @@ const ProductsPage = () => {
         <div className="space-y-24">
           <ServiceSection 
             icon={TruckIcon} 
-            title="整車銷售"
+            title={t('products_page.service1_title')}
             visual={<VisualPlaceholder src="/y_com_car_01.jpg" alt="VR7.5 Production" />}
           >
             <p>
-              我們提供已完成組裝、調校，並隨時可以下場的 VR7.5 賽車。每一台車都經過賽道上的嚴格測試，確保性能與穩定性達到最佳平衡。我們相信，您的團隊值得擁有一台開箱即用、專為勝利而生的戰駒。
+              {t('products_page.service1_desc1')}
             </p>
             <p>
-              購車方案包含第一年的基礎 AI 數據服務 (Free Tier)，讓您從第一天起就能開始收集並分析車輛數據。
+              {t('products_page.service1_desc2')}
             </p>
           </ServiceSection>
 
           <ServiceSection 
             icon={CogIcon} 
-            title="零件供應"
+            title={t('products_page.service2_title')}
             visual={<VisualPlaceholder src="/y_part_01.jpg" alt="Aero Components" />}
             reverse={true}
           >
             <p>
-              從輕量化碳纖維空力套件、高強度懸吊組件到客製化電池模組，我們提供 VR7.5 全車系的零件供應。無論是賽季中的維修更換，或是針對特定賽道的升級需求，我們都能快速回應，確保您的賽車時刻保持在巔峰狀態。
+              {t('products_page.service2_desc')}
             </p>
           </ServiceSection>
           
           <ServiceSection 
             icon={WrenchScrewdriverIcon} 
-            title="維修與技術支援"
+            title={t('products_page.service3_title')}
             visual={<VisualPlaceholder src="/y_support_01.jpg" alt="Maintenance" />}
           >
             <p>
-              我們的技術團隊擁有豐富的組裝與賽道支援經驗。我們提供從賽前整備、現場調校到賽後分析的全方位技術支援。遇到任何技術難題？我們就是您最可靠的後盾。
+              {t('products_page.service3_desc')}
             </p>
           </ServiceSection>
         </div>
 
         {/* AI Plan Section */}
         <section className="text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white">選購 AI 方案</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white">{t('products_page.ai_section_title')}</h2>
           <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
-            購車方案已包含第一年免費方案。升級您的方案以解鎖由 AI 驅動的深度數據洞察，將您的圈速推向極限。
+            {t('products_page.ai_section_desc')}
           </p>
           <div className="mt-16">
             <AiPlanComparison />

@@ -1,48 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import { GlobeAltIcon, WrenchScrewdriverIcon, BoltIcon, CpuChipIcon, ArrowTrendingUpIcon } from '@heroicons/react/24/outline';
-
-const timelineData = [
-    {
-        year: '2008',
-        title: 'Formula Hybrid',
-        description: ['曾前往美國參加油電混合動力方程式賽車。'],
-        icon: GlobeAltIcon,
-    },
-    {
-        year: '2021',
-        title: 'VR5 – 內燃機車 (IC)',
-        description: [
-            '成立行政管理團隊。',
-            '推出第一台方程式賽車。'
-        ],
-        icon: WrenchScrewdriverIcon,
-    },
-    {
-        year: '2022',
-        title: 'VR6 – 電動車 (EV)',
-        description: [
-            '轉型開發電動車。',
-            '成立製造組，並任命一位總工程師來監督生產進度。'
-        ],
-        icon: BoltIcon,
-    },
-    {
-        year: '2023',
-        title: 'VR7 – 電動車 (EV)',
-        description: ['成立新的軟體與韌體組，專注於開發和維護車輛軟體。'],
-        icon: CpuChipIcon,
-    },
-    {
-        year: '2024-2025',
-        title: 'VR7.5 – 電動車 (EV)',
-        description: [
-            '導入先進軟體以收集精確的車輛數據，提升整體車輛控制與性能。',
-            '對 VR7 進行底盤、軟體和整體設計的升級。'
-        ],
-        icon: ArrowTrendingUpIcon,
-    }
-];
+import { useTranslation } from 'react-i18next';
 
 const TimelineItem = ({ item, index }) => {
     const ref = useRef(null);
@@ -106,6 +65,48 @@ const TimelineItem = ({ item, index }) => {
 
 
 const TimelineSection = () => {
+    const { t } = useTranslation();
+    const timelineData = [
+        {
+            year: '2008',
+            title: t('timeline.event1_title'),
+            description: [t('timeline.event1_desc1')],
+            icon: GlobeAltIcon,
+        },
+        {
+            year: '2021',
+            title: t('timeline.event2_title'),
+            description: [
+                t('timeline.event2_desc1'),
+                t('timeline.event2_desc2')
+            ],
+            icon: WrenchScrewdriverIcon,
+        },
+        {
+            year: '2022',
+            title: t('timeline.event3_title'),
+            description: [
+                t('timeline.event3_desc1'),
+                t('timeline.event3_desc2')
+            ],
+            icon: BoltIcon,
+        },
+        {
+            year: '2023',
+            title: t('timeline.event4_title'),
+            description: [t('timeline.event4_desc1')],
+            icon: CpuChipIcon,
+        },
+        {
+            year: '2024-2025',
+            title: t('timeline.event5_title'),
+            description: [
+                t('timeline.event5_desc1'),
+                t('timeline.event5_desc2')
+            ],
+            icon: ArrowTrendingUpIcon,
+        }
+    ];
     return (
         <section className="bg-gray-900 text-white py-16 md:py-24">
             <div className="container mx-auto px-4 md:px-0">
