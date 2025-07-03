@@ -44,7 +44,7 @@ function AppRoutes() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/">
       <MotionConfig transition={{ duration: 0.5, ease: 'easeInOut' }}>
         <MainLayout>
           <AppRoutes />
