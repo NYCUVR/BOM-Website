@@ -3,8 +3,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,7 +25,7 @@ const LoginPage = () => {
                 navigate(from, { replace: true });
             });
         } else {
-            setError('無效的帳號或密碼。請使用測試帳號 admin@vr75.com / password');
+            setError(t('login_page.error_invalid_credentials'));
         }
     };
 
@@ -39,8 +41,8 @@ const LoginPage = () => {
                      <Link to="/" className="text-3xl font-bold text-brand-pink hover:text-brand-gold transition-colors duration-300">
                         VR7.5 Racing
                     </Link>
-                    <h1 className="text-3xl font-bold text-white mt-4">登入儀表板</h1>
-                    <p className="text-gray-400">請輸入您的帳號以繼續</p>
+                    <h1 className="text-3xl font-bold text-white mt-4">{t('login_page.title')}</h1>
+                    <p className="text-gray-400">{t('login_page.subtitle')}</p>
                 </div>
 
                 <form 
@@ -48,7 +50,7 @@ const LoginPage = () => {
                     className="bg-gray-800 shadow-2xl rounded-2xl p-8 space-y-6"
                 >
                     <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium text-gray-300">電子郵件</label>
+                        <label htmlFor="email" className="text-sm font-medium text-gray-300">{t('login_page.email_label')}</label>
                         <input 
                             type="email" 
                             id="email"
@@ -61,7 +63,7 @@ const LoginPage = () => {
                     </div>
 
                      <div className="space-y-2">
-                        <label htmlFor="password" className="text-sm font-medium text-gray-300">密碼</label>
+                        <label htmlFor="password" className="text-sm font-medium text-gray-300">{t('login_page.password_label')}</label>
                         <input 
                             type="password" 
                             id="password"
@@ -79,12 +81,16 @@ const LoginPage = () => {
                         type="submit"
                         className="w-full flex items-center justify-center bg-brand-pink text-white font-bold py-3 px-8 rounded-full hover:bg-brand-gold transition-colors duration-300 shadow-lg transform hover:scale-105"
                     >
-                        <span>登入</span>
+                        <span>{t('login_page.login_button')}</span>
                         <ArrowRightIcon className="h-5 w-5 ml-2" />
                     </button>
                 </form>
                  <p className="text-center text-gray-500 text-sm mt-6">
-                    還沒有帳號？ <Link to="/contact" className="text-brand-pink hover:underline">聯絡我們</Link> 索取存取權限。
+                    {t('login_page.no_account_prefix')}{' '}
+                    <Link to="/contact" className="text-brand-pink hover:underline">
+                        {t('login_page.contact_us_link')}
+                    </Link>{' '}
+                    {t('login_page.no_account_suffix')}
                 </p>
             </motion.div>
         </div>

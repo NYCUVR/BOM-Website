@@ -211,16 +211,6 @@
             }
         }
     },
-    "login_page": {
-        "title": "Member Login",
-        "email_label": "Email Address",
-        "password_label": "Password",
-        "login_button": "Login",
-        "forgot_password": "Forgot Password?",
-        "no_account": "Don't have an account?",
-        "sign_up": "Sign Up",
-        "subtitle": "Access Your AI-Powered Racing Dashboard"
-    },
     "dashboard": {
         "title": "AI Telemetry Dashboard",
         "subtitle": "Analyze performance, gain insights, and optimize your strategy.",
@@ -255,22 +245,31 @@
         "cta_subtitle": "Your support will be directly invested in the R&D and manufacturing of the next-generation race car and help us cultivate future engineers. We offer a variety of partnership plans and look forward to you joining us on our path to victory.",
         "cta_button": "Explore Sponsorship"
     },
+    "login_page": {
+        "title": "Dashboard Login",
+        "subtitle": "Please enter your credentials to continue",
+        "email_label": "Email",
+        "password_label": "Password",
+        "login_button": "Login",
+        "no_account_prefix": "Don't have an account?",
+        "no_account_suffix": "to request access.",
+        "contact_us_link": "Contact us",
+        "error_invalid_credentials": "Invalid credentials. Please use the test account: admin@vr75.com / password"
+    },
     "contact_page": {
         "title": "Contact Us",
         "subtitle": "Whether you're interested in a partnership, have a question about our car, or want to join our team, we'd love to hear from you.",
         "form_name": "Your Name",
         "form_email": "Your Email",
+        "form_subject": "Subject",
         "form_message": "Your Message",
-        "form_send": "Send Message",
-        "info_title": "Contact Information",
-        "info_address": "123 Racing Lane, Innovate City, 45678",
-        "info_phone": "+1 (234) 567-890",
-        "info_email": "contact@vr75racing.com"
+        "send_button": "Send Message",
+        "success_message": "Thank you! Your message has been sent successfully.",
+        "error_message": "Sorry, something went wrong. Please try again later."
     },
     "not_found_page": {
-        "title": "404",
-        "subtitle": "Page Not Found",
-        "message": "Sorry, the page you are looking for could not be found. It might have been removed, had its name changed, or is temporarily unavailable.",
-        "button": "Go to Homepage"
+        "title": "404 - Page Not Found",
+        "subtitle": "Oops! The page you are looking for does not exist. It might have been moved or deleted.",
+        "button_text": "Go Back to Homepage"
     }
 }

@@ -211,17 +211,7 @@
             }
         }
     },
-    "login_page": {
-        "title": "會員登入",
-        "subtitle": "進入您的 AI 智能賽車儀表板",
-        "email_label": "電子郵件地址",
-        "password_label": "密碼",
-        "login_button": "登入",
-        "forgot_password": "忘記密碼？",
-        "no_account": "還沒有帳號嗎？",
-        "sign_up": "註冊"
-    },
-    "dashboard_page": {
+    "dashboard": {
         "title": "AI 遙測數據儀表板",
         "subtitle": "分析性能、獲取洞見、優化策略。",
         "select_plan": "選擇您的分析方案：",
@@ -255,28 +245,31 @@
         "cta_subtitle": "您的支持將直接投入到下一代賽車的研發與製造，並幫助我們培育未來的工程師。我們提供多樣的合作方案，期待您成為我們邁向冠軍之路的夥伴。",
         "cta_button": "了解贊助方案"
     },
+    "login_page": {
+        "title": "儀表板登入",
+        "subtitle": "請輸入您的帳號以繼續",
+        "email_label": "電子郵件",
+        "password_label": "密碼",
+        "login_button": "登入",
+        "no_account_prefix": "還沒有帳號？",
+        "no_account_suffix": "以索取存取權限。",
+        "contact_us_link": "聯絡我們",
+        "error_invalid_credentials": "無效的帳號或密碼。請使用測試帳號：admin@vr75.com / password"
+    },
     "contact_page": {
         "title": "聯絡我們",
-        "subtitle": "無論您對合作感興趣、對我們的賽車有疑問，還是想加入我們的團隊，我們都樂意聽取您的意見。",
+        "subtitle": "無論您是對合作感興趣、對我們的賽車有疑問，還是想加入我們的團隊，我們都樂意聽取您的意見。",
         "form_name": "您的姓名",
         "form_email": "您的電子郵件",
+        "form_subject": "主旨",
         "form_message": "您的訊息",
-        "form_send": "發送訊息",
-        "info_title": "聯絡資訊",
-        "info_address": "創新市賽車道123號，45678",
-        "info_phone": "+1 (234) 567-890",
-        "info_email": "contact@vr75racing.com"
+        "send_button": "傳送訊息",
+        "success_message": "感謝您！您的訊息已成功寄出。",
+        "error_message": "抱歉，發生錯誤，請稍後再試。"
     },
     "not_found_page": {
-        "title": "404",
-        "subtitle": "找不到頁面",
-        "message": "抱歉，您要找的頁面不存在。它可能已被移動、更名或暫時無法使用。",
-        "button": "返回首頁"
-    },
-    "ai_plan_comparison": {
-        "feature_telemetry": "基礎遙測儀表板",
-        "feature_ai_driving_coach": "AI 駕駛教練",
-        "feature_prediction": "進階效能預測模型",
-        "recommended_plan": "推薦方案"
+        "title": "404 - 找不到頁面",
+        "subtitle": "哎呀！您正在尋找的頁面不存在。它可能已被移動或刪除。",
+        "button_text": "返回首頁"
     }
 } 
