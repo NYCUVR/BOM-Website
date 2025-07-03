@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { faker } from '@faker-js/faker';
-import { ScatterChart, Scatter, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart, Bar, ReferenceLine, ZAxis } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Bar, Line, Area, ZAxis } from 'recharts';
 import { 
     ChevronDownIcon, 
     UserCircleIcon,
@@ -10,178 +10,155 @@ import {
     AcademicCapIcon,
     ArrowTrendingUpIcon,
     MapIcon,
+    ChartBarIcon,
+    TrophyIcon,
+    BeakerIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
+const DashboardPage = () => {
+    const { t } = useTranslation();
+    const { user } = useAuth();
+    const [plan, setPlan] = useState('free');
 
-// --- MOCK DATA & TRACK GENERATION ---
+    const TRACKS = useMemo(() => ({
+        test_base: { name: t('dashboard.tracks.test_base') },
+        lihpao_g2: { name: t('dashboard.tracks.lihpao_g2') },
+        suzuka_east: { name: t('dashboard.tracks.suzuka_east') },
+    }), [t]);
 
-const TRACKS = {
-    test_base: {
-        name: 'VR7.5 測試基地',
-        points: 200,
-        generator: (i, points) => {
+    const [trackKey, setTrackKey] = useState(Object.keys(TRACKS)[0]);
+
+    const trackGenerators = useMemo(() => ({
+        test_base: (i, points) => {
             const angle = (i / points) * 2 * Math.PI;
             const r = 100;
             const x = r * Math.sin(angle) * (1 + 0.2 * Math.cos(angle * 3));
             const y = r * Math.cos(angle) * (1 + 0.2 * Math.sin(angle * 2));
             return { x, y, angle };
-        }
-    },
-    lihpao_g2: {
-        name: '麗寶國際賽車場 G2',
-        points: 300,
-        generator: (i, points) => {
+        },
+        lihpao_g2: (i, points) => {
             const angle = (i / points) * 2 * Math.PI;
             const r = 100;
             const x = r * (Math.sin(angle) - 0.3 * Math.sin(angle*2));
             const y = r * (Math.cos(angle) + 0.4 * Math.cos(angle*3) - 0.2 * Math.sin(angle*4));
             return { x, y, angle };
-        }
-    },
-    suzuka_east: {
-        name: '鈴鹿賽車場 - 東賽道',
-        points: 250,
-        generator: (i, points) => {
+        },
+        suzuka_east: (i, points) => {
             const t = (i / points) * 2 * Math.PI;
             const r = 100;
             const x = r * (Math.sin(t) - 0.5 * Math.sin(2 * t) + 0.2 * Math.cos(3 * t));
             const y = r * (Math.cos(t) + 0.5 * Math.sin(3 * t));
             return { x, y, angle: t };
         }
-    }
-}
+    }), []);
+    
+    const pointsConfig = useMemo(() => ({ test_base: 200, lihpao_g2: 300, suzuka_east: 250 }), []);
 
-const generateSessionData = (trackKey) => {
-    let data = [];
-    const track = TRACKS[trackKey];
-    const { points, generator } = track;
+    const generateSessionData = (currentTrackKey) => {
+        let data = [];
+        const points = pointsConfig[currentTrackKey];
+        const generator = trackGenerators[currentTrackKey];
 
-    // Define braking and apex points relative to the number of points
-    const brakingIndices = [Math.floor(points * 0.2), Math.floor(points * 0.7)];
-    const apexIndices = [Math.floor(points * 0.3), Math.floor(points * 0.8)];
+        const brakingIndices = [Math.floor(points * 0.2), Math.floor(points * 0.7)];
+        const apexIndices = [Math.floor(points * 0.3), Math.floor(points * 0.8)];
 
-    for (let i = 0; i < points; i++) {
-        const { x, y, angle } = generator(i, points);
-        const userSpeed = 120 + 50 * Math.sin(angle * 2 + Math.PI / 2) + faker.number.float({ min: -5, max: 5 });
-        const idealSpeed = userSpeed + faker.number.float({ min: 3, max: 10 });
+        for (let i = 0; i < points; i++) {
+            const { x, y, angle } = generator(i, points);
+            const userSpeed = 120 + 50 * Math.sin(angle * 2 + Math.PI / 2) + faker.number.float({ min: -5, max: 5 });
+            const idealSpeed = userSpeed + faker.number.float({ min: 3, max: 10 });
 
-        const isBrakingPoint = brakingIndices.includes(i);
-        const isApex = apexIndices.includes(i);
+            data.push({
+                distance: (i / points) * 3740,
+                userSpeed,
+                idealSpeed,
+                throttle: faker.number.float({ min: 0.2, max: 1 }),
+                brake: brakingIndices.includes(i) ? faker.number.float({ min: 0.8, max: 1 }) : faker.number.float({ min: 0, max: 0.1 }),
+                gForce: 1.5 + Math.abs(Math.sin(angle * 2)),
+                x, y,
+                isBrakingPoint: brakingIndices.includes(i),
+                isApex: apexIndices.includes(i)
+            });
+        }
+        return data;
+    };
 
-        data.push({
-            distance: (i / points) * 3740, // Approximate distance
-            userSpeed,
-            idealSpeed,
-            throttle: faker.number.float({ min: 0.2, max: 1 }),
-            brake: isBrakingPoint ? faker.number.float({ min: 0.8, max: 1 }) : faker.number.float({ min: 0, max: 0.1 }),
-            gForce: 1.5 + Math.abs(Math.sin(angle * 2)),
-            x,
-            y,
-            isBrakingPoint,
-            isApex
-        });
-    }
-    return data;
-};
-
-const sessionData = generateSessionData(Object.keys(TRACKS)[0]);
-const brakingPoints = sessionData.filter(d => d.isBrakingPoint);
-const apexPoints = sessionData.filter(d => d.isApex);
-
-const kpis = {
-    best_lap: '1:30.125',
-    top_speed: '165 km/h',
-    max_g_force: '2.3 G',
-    delta_to_ideal: <span className="text-red-400">-0.850s</span>,
-}
-
-const analysis = {
-    silver: [
-        '在 T3 彎道延後剎車點 5 公尺，預計可提升 0.15 秒。',
-        '於 1500m 處的連續彎，路線可更貼近彎心，以提升出彎速度。',
-        '電池溫度在後半段偏高，建議調整動能回收強度至等級 2。',
-        '偵測到輕微轉向不足，建議前輪胎壓降低 0.5 psi。',
-    ],
-    gold: [
-        { text: 'AI 教練：地圖上已標示出 T3 彎的理想煞車點，您的反應比建議晚了 0.08 秒。'},
-        { text: 'AI 教練：與理想路線相比，你的出彎點過於遠離彎心，建議修正方向盤角度，以最大化出彎速度。'},
-        { text: 'AI 教練：警告！電池溫度達到 85°C 臨界值，建議立即進站或啟用冷卻模式。'},
-        { text: 'AI 教練：你的平均 G 值低於最佳範圍，顯示輪胎抓地力未被充分利用。更大膽地相信你的車！'}
-    ]
-}
-
-
-// --- Components ---
-const KPICard = ({ title, value, icon: Icon }) => (
-    <div className="bg-gray-800 p-4 rounded-xl flex items-center gap-4">
-        <div className="bg-brand-pink/20 p-3 rounded-lg">
-            <Icon className="h-6 w-6 text-brand-pink" />
-        </div>
-        <div>
-            <p className="text-sm text-gray-400">{title}</p>
-            <p className="text-2xl font-bold text-white">{value}</p>
-        </div>
-    </div>
-);
-
-
-const TelemetryChart = ({ data, plan }) => (
-    <div className="bg-gray-800 p-6 rounded-2xl h-[500px]">
-        <h3 className="text-xl font-bold mb-4">賽道遙測數據 (麗寶 G2 賽道 - 單圈 3)</h3>
-        <ResponsiveContainer width="100%" height="90%">
-            <ComposedChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
-                <XAxis dataKey="distance" unit="m" stroke="#9CA3AF" />
-                <YAxis yAxisId="left" label={{ value: 'Speed (km/h)', angle: -90, position: 'insideLeft', fill: '#818CF8' }} stroke="#818CF8" />
-                <YAxis yAxisId="right" orientation="right" label={{ value: 'Brake / Throttle', angle: 90, position: 'insideRight', fill: '#fbbf24' }} stroke="#fbbf24" domain={[0, 1]}/>
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(31, 41, 55, 0.8)', borderColor: '#4B5563' }}/>
-                <Legend />
-                <Area yAxisId="left" type="monotone" dataKey="userSpeed" name="您的速度" fill="#818CF8" stroke="#818CF8" fillOpacity={0.3} />
-                {plan === 'gold' && (
-                    <Line yAxisId="left" type="monotone" dataKey="idealSpeed" name="AI 建議速度" stroke="#F472B6" strokeWidth={2} dot={false} strokeDasharray="5 5" />
-                )}
-                <Bar yAxisId="right" dataKey="brake" name="煞車力道" fill="#ef4444" barSize={5} />
-                <Bar yAxisId="right" dataKey="throttle" name="油門深度" fill="#22c55e" barSize={5} />
-            </ComposedChart>
-        </ResponsiveContainer>
-    </div>
-);
-
-const TrackMap = ({ data, braking, apexes }) => (
-     <div className="bg-gray-800 p-6 rounded-2xl h-[500px] flex flex-col">
-        <h3 className="text-xl font-bold mb-2">AI 戰術賽道地圖</h3>
-         <div className="flex-grow">
-            <ResponsiveContainer width="100%" height="100%">
-                <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
-                    <XAxis type="number" dataKey="x" name="x" tick={false} axisLine={false} label=""/>
-                    <YAxis type="number" dataKey="y" name="y" tick={false} axisLine={false} label=""/>
-                    <ZAxis type="number" dataKey="userSpeed" range={[20, 300]} name="速度" unit="km/h" />
-                    <Tooltip cursor={{ strokeDasharray: '3 3' }} wrapperStyle={{ backgroundColor: 'rgba(31, 41, 55, 0.8)', border: '1px solid #4B5563' }} />
-                    
-                    <Scatter name="您的路線" data={data} fill="#818CF8" line={{ stroke: '#4f46e5', strokeWidth: 2 }} shape="dot" />
-                    <Scatter name="理想煞車點" data={braking} fill="#ef4444" shape="triangle" />
-                    <Scatter name="最佳入彎點" data={apexes} fill="#facc15" shape="star" />
-                </ScatterChart>
-            </ResponsiveContainer>
-         </div>
-         <div className="flex justify-center items-center gap-6 pt-4 border-t border-gray-700/50">
-             <div className="flex items-center gap-2 text-sm"><div className="w-4 h-1 bg-[#4f46e5]"></div><span>您的路線</span></div>
-             <div className="flex items-center gap-2 text-sm"><div className="w-3 h-3 bg-[#ef4444]" style={{clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'}}></div><span>理想煞車點</span></div>
-             <div className="flex items-center gap-2 text-sm"><div className="w-3 h-3 bg-[#facc15]" style={{clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)'}}></div><span>最佳入彎點</span></div>
-         </div>
-    </div>
-);
-
-const DashboardPage = () => {
-    const { user } = useAuth();
-    const [plan, setPlan] = useState('free');
-    const [track, setTrack] = useState(Object.keys(TRACKS)[0]);
-
-    const sessionData = useMemo(() => generateSessionData(track), [track]);
+    const sessionData = useMemo(() => generateSessionData(trackKey), [trackKey]);
     const brakingPoints = useMemo(() => sessionData.filter(d => d.isBrakingPoint), [sessionData]);
     const apexPoints = useMemo(() => sessionData.filter(d => d.isApex), [sessionData]);
+
+    const kpis = useMemo(() => ({
+        best_lap: '1:30.125',
+        top_speed: '165 km/h',
+        max_g_force: '2.3 G',
+        delta_to_ideal: <span className="text-red-400">-0.850s</span>,
+    }), []);
+
+    const analysis = useMemo(() => ({
+        silver: t('dashboard.ai_analysis.silver', { returnObjects: true }) || [],
+        gold: t('dashboard.ai_analysis.gold', { returnObjects: true }) || []
+    }), [t]);
+
+    const KPICard = ({ title, value, icon: Icon }) => (
+        <div className="bg-gray-800 p-4 rounded-xl flex items-center gap-4">
+            <div className="bg-brand-pink/20 p-3 rounded-lg">
+                <Icon className="h-6 w-6 text-brand-pink" />
+            </div>
+            <div>
+                <p className="text-sm text-gray-400">{title}</p>
+                <p className="text-3xl font-bold text-white">{value}</p>
+            </div>
+        </div>
+    );
+
+    const TelemetryChart = ({ data, plan, trackName }) => (
+        <div className="bg-gray-800 p-6 rounded-2xl h-[500px]">
+            <h3 className="text-xl font-bold mb-4">{t('dashboard.telemetry_chart_title')} ({t('dashboard.telemetry_chart_subtitle_template', { trackName, lapNumber: 3 })})</h3>
+            <ResponsiveContainer width="100%" height="90%">
+                <ComposedChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
+                    <XAxis dataKey="distance" unit="m" stroke="#9CA3AF" />
+                    <YAxis yAxisId="left" label={{ value: t('dashboard.chart_y_axis_speed'), angle: -90, position: 'insideLeft', fill: '#818CF8' }} stroke="#818CF8" />
+                    <YAxis yAxisId="right" orientation="right" label={{ value: t('dashboard.chart_y_axis_input'), angle: 90, position: 'insideRight', fill: '#fbbf24' }} stroke="#fbbf24" domain={[0, 1]}/>
+                    <Tooltip contentStyle={{ backgroundColor: 'rgba(31, 41, 55, 0.8)', borderColor: '#4B5563' }}/>
+                    <Legend />
+                    <Area yAxisId="left" type="monotone" dataKey="userSpeed" name={t('dashboard.chart_your_speed')} fill="#818CF8" stroke="#818CF8" fillOpacity={0.3} />
+                    {plan === 'gold' && (
+                        <Line yAxisId="left" type="monotone" dataKey="idealSpeed" name={t('dashboard.chart_ai_speed')} stroke="#F472B6" strokeWidth={2} dot={false} strokeDasharray="5 5" />
+                    )}
+                    <Bar yAxisId="right" dataKey="brake" name={t('dashboard.chart_brake')} fill="#ef4444" barSize={5} />
+                    <Bar yAxisId="right" dataKey="throttle" name={t('dashboard.chart_throttle')} fill="#22c55e" barSize={5} />
+                </ComposedChart>
+            </ResponsiveContainer>
+        </div>
+    );
+
+    const TrackMap = ({ data, braking, apexes }) => (
+         <div className="bg-gray-800 p-6 rounded-2xl h-[500px] flex flex-col">
+            <h3 className="text-xl font-bold mb-2">{t('dashboard.map_title')}</h3>
+             <div className="flex-grow">
+                <ResponsiveContainer width="100%" height="100%">
+                    <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
+                        <XAxis type="number" dataKey="x" name="x" tick={false} axisLine={false} label=""/>
+                        <YAxis type="number" dataKey="y" name="y" tick={false} axisLine={false} label=""/>
+                        <ZAxis type="number" dataKey="userSpeed" range={[20, 300]} name={t('dashboard.chart_your_speed')} unit="km/h" />
+                        <Tooltip cursor={{ strokeDasharray: '3 3' }} wrapperStyle={{ backgroundColor: 'rgba(31, 41, 55, 0.8)', border: '1px solid #4B5563' }} />
+                        
+                        <Scatter name={t('dashboard.map_legend_your_route')} data={data} fill="#818CF8" line={{ stroke: '#4f46e5', strokeWidth: 2 }} shape="dot" />
+                        <Scatter name={t('dashboard.map_legend_brake_point')} data={braking} fill="#ef4444" shape="triangle" />
+                        <Scatter name={t('dashboard.map_legend_apex')} data={apexes} fill="#facc15" shape="star" />
+                    </ScatterChart>
+                </ResponsiveContainer>
+             </div>
+             <div className="flex justify-center items-center gap-6 pt-4 border-t border-gray-700/50">
+                 <div className="flex items-center gap-2 text-sm"><div className="w-4 h-1 bg-[#4f46e5]"></div><span>{t('dashboard.map_legend_your_route')}</span></div>
+                 <div className="flex items-center gap-2 text-sm"><div className="w-3 h-3 bg-[#ef4444]" style={{clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'}}></div><span>{t('dashboard.map_legend_brake_point')}</span></div>
+                 <div className="flex items-center gap-2 text-sm"><div className="w-3 h-3 bg-[#facc15]" style={{clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)'}}></div><span>{t('dashboard.map_legend_apex')}</span></div>
+             </div>
+        </div>
+    );
 
     const PlanButton = ({ level, title }) => (
         <button
@@ -198,49 +175,62 @@ const DashboardPage = () => {
     return (
         <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-6 lg:p-8">
             <div className="max-w-screen-2xl mx-auto">
-                {/* Header */}
                 <header className="flex justify-between items-center mb-8 flex-wrap gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold">AI 數據儀表板</h1>
-                        <p className="text-gray-400">歡迎回來, {user?.name || 'User'}!</p>
+                        <h1 className="text-3xl font-bold text-white">{t('dashboard.title')}</h1>
+                        <p className="text-gray-400">{t('dashboard.subtitle_greeting')} {user?.name || 'Guest'}. {t('dashboard.subtitle_prompt')}</p>
                     </div>
+                    
                     <div className="flex items-center gap-4">
-                       {/* Track Selector */}
-                        <div className="relative">
-                            <select
-                                value={track}
-                                onChange={(e) => setTrack(e.target.value)}
-                                className="bg-gray-700 border-gray-600 text-white rounded-md p-2 focus:ring-brand-pink focus:border-brand-pink transition appearance-none pr-8"
-                            >
-                                {Object.entries(TRACKS).map(([key, { name }]) => (
-                                    <option key={key} value={key}>{name}</option>
-                                ))}
-                            </select>
-                            <ChevronDownIcon className="h-5 w-5 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        </div>
-                        <button className="p-2 rounded-full hover:bg-gray-700"><BellIcon className="h-6 w-6" /></button>
-                        <button className="p-2 rounded-full hover:bg-gray-700"><CogIcon className="h-6 w-6" /></button>
-                        <UserCircleIcon className="h-10 w-10 text-gray-500" />
+                        <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+                            <BellIcon className="h-6 w-6" />
+                        </button>
+                         <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+                            <CogIcon className="h-6 w-6" />
+                        </button>
+                        <UserCircleIcon className="h-10 w-10 text-gray-500"/>
                     </div>
                 </header>
-
-                {/* Main Content */}
-                <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    {/* Center Column: Main viz */}
-                    <div className="lg:col-span-2 space-y-8">
-                        {/* KPIs */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            <KPICard title="最佳單圈" value={kpis.best_lap} icon={ArrowTrendingUpIcon} />
-                            <KPICard title="最高時速" value={kpis.top_speed} icon={ArrowTrendingUpIcon} />
-                            <KPICard title="最大G值" value={kpis.max_g_force} icon={ArrowTrendingUpIcon} />
-                            <KPICard title="理想圈速差" value={kpis.delta_to_ideal} icon={ArrowTrendingUpIcon} />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                            <KPICard title={t('dashboard.kpi_best_lap')} value={kpis.best_lap} icon={TrophyIcon} />
+                            <KPICard title={t('dashboard.kpi_top_speed')} value={kpis.top_speed} icon={ArrowTrendingUpIcon} />
+                            <KPICard title={t('dashboard.kpi_max_g')} value={kpis.max_g_force} icon={ChartBarIcon} />
+                            <KPICard title={t('dashboard.kpi_delta')} value={kpis.delta_to_ideal} icon={BeakerIcon} />
+                        </div>
+                <main className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    {/* Left Panel */}
+                    <aside className="lg:col-span-1 space-y-6">
+                        <div className="bg-gray-800 p-6 rounded-2xl">
+                            <h3 className="text-xl font-bold mb-4">{t('dashboard.plan_selector_title')}</h3>
+                            <div className="space-y-4">
+                                <PlanButton level="free" title={t('dashboard.plan_free')} />
+                                <PlanButton level="silver" title={t('dashboard.plan_silver')} />
+                                <PlanButton level="gold" title={t('dashboard.plan_gold')} />
+                            </div>
                         </div>
 
-                        {/* Telemetry Chart or Track Map */}
-                        <AnimatePresence mode="wait">
+                        <div className="bg-gray-800 p-6 rounded-2xl">
+                             <h3 className="text-xl font-bold mb-4">{t('dashboard.track_selector_title')}</h3>
+                             <div className="relative">
+                                <select 
+                                    value={trackKey} 
+                                    onChange={(e) => setTrackKey(e.target.value)}
+                                    className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-brand-pink transition appearance-none"
+                                >
+                                    {Object.keys(TRACKS).map(key => (
+                                        <option key={key} value={key}>{TRACKS[key].name}</option>
+                                    ))}
+                                </select>
+                                <ChevronDownIcon className="h-5 w-5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            </div>
+                        </div>
+                    </aside>
+
+                    {/* Main Content: Center Chart */}
+                    <div className="lg:col-span-3">
+                         <AnimatePresence mode="wait">
                             <motion.div
-                                key={plan}
+                                key={plan === 'gold' ? 'map' : 'telemetry'}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
@@ -249,65 +239,59 @@ const DashboardPage = () => {
                                 {plan === 'gold' ? (
                                     <TrackMap data={sessionData} braking={brakingPoints} apexes={apexPoints} />
                                 ) : (
-                                    <TelemetryChart data={sessionData} plan={plan} />
+                                    <TelemetryChart data={sessionData} plan={plan} trackName={TRACKS[trackKey].name} />
                                 )}
                             </motion.div>
                         </AnimatePresence>
                     </div>
 
-                    {/* Right Column: AI Analysis */}
-                    <div className="bg-gray-800 p-6 rounded-2xl flex flex-col">
-                        <h3 className="text-xl font-bold mb-4">AI 驅動分析</h3>
-                        
-                        {/* Plan Selector */}
-                        <div className="space-y-4 mb-6">
-                           <PlanButton level="free" title="基礎數據" />
-                           <PlanButton level="silver" title="AI 分析建議" />
-                           <PlanButton level="gold" title="AI 視覺化教練" />
-                        </div>
-                        
-                        <div className="flex-1 overflow-y-auto p-4 bg-gray-900/50 rounded-lg">
-                            {plan === 'free' && (
-                                <div>
-                                    <h4 className="text-lg font-bold text-brand-gold mb-2">原始遙測數據</h4>
-                                    <p className="text-sm text-gray-400 mb-4">Free 方案提供您基礎的賽道數據輸出，可供您自行分析。</p>
-                                    <ul className="text-xs text-gray-300 space-y-1 font-mono">
-                                        {sessionData.slice(0, 10).map((d, i) => (
-                                            <li key={i}>{`Dist: ${d.distance.toFixed(0)}m, Spd: ${d.userSpeed.toFixed(1)}km/h, Thr: ${d.throttle.toFixed(2)}`}</li>
-                                        ))}
-                                        <li>... (共 {sessionData.length} 筆數據)</li>
-                                    </ul>
-                                </div>
-                            )}
-
-                            {plan === 'silver' && (
-                                <div>
-                                    <h4 className="text-lg font-bold text-brand-gold mb-2">AI 分析與建議</h4>
-                                    <p className="text-sm text-gray-400 mb-4">Silver 方案解鎖 AI 文字分析，為您提供可執行的改進建議。</p>
-                                    <ul className="space-y-3 text-sm text-gray-300">
-                                        {analysis.silver.map((item, i) => (
-                                            <li key={i} className="p-3 bg-gray-700/50 rounded-md">{item}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-
-                            {plan === 'gold' && (
-                                <div>
-                                     <h4 className="text-lg font-bold text-brand-gold mb-2">AI 視覺化教練</h4>
-                                     <p className="text-sm text-gray-400 mb-4">Gold 方案提供視覺化路線對比與即時教練回饋，發掘您的全部潛力。</p>
-                                      <ul className="space-y-3 text-sm text-gray-300">
-                                        {analysis.gold.map((item, i) => (
-                                            <li key={i} className="p-3 bg-gray-700/50 rounded-md flex items-start gap-3">
-                                                <AcademicCapIcon className="h-5 w-5 text-brand-gold mt-0.5 flex-shrink-0" />
-                                                <span>{item.text}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    {/* Right Panel */}
+                    <aside className="lg:col-span-1 bg-gray-800 p-6 rounded-2xl flex flex-col">
+                       <AnimatePresence mode="wait">
+                            <motion.div
+                                key={plan}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex-grow flex flex-col"
+                            >
+                                {plan === 'free' && (
+                                    <div>
+                                        <h3 className="text-xl font-bold mb-4">{t('dashboard.right_panel_raw_data_title')}</h3>
+                                        <div className="bg-gray-900/50 p-4 rounded-lg h-96 overflow-y-auto text-xs font-mono text-gray-400 space-y-1">
+                                            {sessionData.slice(0, 50).map((d, i) => (
+                                                <p key={i} className="break-all">
+                                                    <span className="text-sky-400">T:{d.distance.toFixed(0).padStart(4, '0')}</span> | 
+                                                    <span className="text-rose-400"> S:{d.userSpeed.toFixed(1).padStart(5, ' ')}</span> | 
+                                                    <span className="text-emerald-400"> thr:{d.throttle.toFixed(2)}</span> |
+                                                    <span className="text-amber-400"> brk:{d.brake.toFixed(2)}</span>
+                                                </p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {(plan === 'silver' || plan === 'gold') && (
+                                    <div className="flex-grow flex flex-col">
+                                        <h3 className="text-xl font-bold mb-4">{t('dashboard.right_panel_ai_title')}</h3>
+                                        <div className="space-y-4 flex-grow">
+                                            {analysis[plan].map((item, index) => (
+                                                <div key={index} className="bg-gray-900/50 p-4 rounded-lg text-gray-300 text-sm">
+                                                    {typeof item === 'string' ? item : item.text}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                 {(plan === 'silver' || plan === 'free') && (
+                                    <div className="mt-6 border-t border-gray-700/50 pt-4">
+                                        <h4 className="font-bold text-brand-gold">{t('dashboard.map_title')}</h4>
+                                        <p className="text-sm text-gray-400">{t('dashboard.right_panel_upgrade_prompt')}</p>
+                                    </div>
+                                )}
+                            </motion.div>
+                       </AnimatePresence>
+                    </aside>
                 </main>
             </div>
         </div>

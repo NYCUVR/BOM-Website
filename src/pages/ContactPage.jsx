@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { ClipboardDocumentCheckIcon, ShoppingCartIcon, EnvelopeIcon, PhoneIcon, HeartIcon } from '@heroicons/react/24/outline';
-
-const tabs = [
-  { id: 'testDrive', name: '試駕申請', icon: ClipboardDocumentCheckIcon },
-  { id: 'purchase', name: '購車專人', icon: ShoppingCartIcon },
-  { id: 'sponsorship', name: '贊助我們', icon: HeartIcon },
-];
 
 const FormInput = ({ label, type = 'text', name, placeholder }) => (
   <div>
@@ -42,6 +37,14 @@ const formVariants = {
 };
 
 const ContactPage = () => {
+  const { t } = useTranslation();
+  
+  const tabs = [
+    { id: 'testDrive', name: t('contact_page.tab_test_drive'), icon: ClipboardDocumentCheckIcon },
+    { id: 'purchase', name: t('contact_page.tab_purchase'), icon: ShoppingCartIcon },
+    { id: 'sponsorship', name: t('contact_page.tab_sponsorship'), icon: HeartIcon },
+  ];
+  
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   const handleSubmit = (e) => {
@@ -49,7 +52,8 @@ const ContactPage = () => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     console.log('Form Submitted:', data);
-    alert(`感謝您的填寫！\n\n表單類型: ${tabs.find(t => t.id === activeTab).name}\n資料（已顯示於主控台）:\n${JSON.stringify(data, null, 2)}\n\n(此為前端模擬，資料未實際送出)`);
+    const currentTabName = tabs.find(tab => tab.id === activeTab)?.name || '';
+    alert(`${t('contact_page.alert_success_intro')}\n\n${t('contact_page.alert_form_type')}: ${currentTabName}\n${t('contact_page.alert_data_preview')}:\n${JSON.stringify(data, null, 2)}\n\n${t('contact_page.alert_frontend_simulation')}`);
     e.target.reset();
   };
 
@@ -58,52 +62,50 @@ const ContactPage = () => {
       case 'testDrive':
         return (
           <motion.form key="testDrive" onSubmit={handleSubmit} variants={formVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
-            <h3 className="text-2xl font-bold text-white">預約賽道試駕</h3>
-            <p className="text-gray-400">親身體驗 VR7.5 的極致性能。請填寫以下資訊，我們將有專人與您聯繫安排。
-            </p>
+            <h3 className="text-2xl font-bold text-white">{t('contact_page.test_drive_form.title')}</h3>
+            <p className="text-gray-400">{t('contact_page.test_drive_form.description')}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormInput label="姓名" name="name" placeholder="您的姓名" />
-              <FormInput label="電子郵件" type="email" name="email" placeholder="you@example.com" />
+              <FormInput label={t('contact_page.test_drive_form.name_label')} name="name" placeholder={t('contact_page.test_drive_form.name_placeholder')} />
+              <FormInput label={t('contact_page.test_drive_form.email_label')} type="email" name="email" placeholder={t('contact_page.test_drive_form.email_placeholder')} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormInput label="聯絡電話" name="phone" placeholder="您的電話" />
-              <FormInput label="所屬公司/車隊名稱" name="company" placeholder="您的單位" />
+              <FormInput label={t('contact_page.test_drive_form.phone_label')} name="phone" placeholder={t('contact_page.test_drive_form.phone_placeholder')} />
+              <FormInput label={t('contact_page.test_drive_form.company_label')} name="company" placeholder={t('contact_page.test_drive_form.company_placeholder')} />
             </div>
-            <FormInput label="希望的試駕日期" type="date" name="date" />
-            <FormTextarea label="其他備註" name="message" placeholder="是否有任何特殊需求？" />
-            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">提交申請</button>
+            <FormInput label={t('contact_page.test_drive_form.date_label')} type="date" name="date" />
+            <FormTextarea label={t('contact_page.test_drive_form.notes_label')} name="message" placeholder={t('contact_page.test_drive_form.notes_placeholder')} />
+            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">{t('contact_page.test_drive_form.submit_button')}</button>
           </motion.form>
         );
       case 'purchase':
         return (
           <motion.form key="purchase" onSubmit={handleSubmit} variants={formVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
-            <h3 className="text-2xl font-bold text-white">購車專人服務</h3>
-            <p className="text-gray-400">我們的專家將為您提供完整的購車方案，包含客製化選項與技術支援。
-            </p>
+            <h3 className="text-2xl font-bold text-white">{t('contact_page.purchase_form.title')}</h3>
+            <p className="text-gray-400">{t('contact_page.purchase_form.description')}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput label="聯絡人姓名" name="name" placeholder="您的姓名" />
-                <FormInput label="電子郵件" type="email" name="email" placeholder="you@example.com" />
+                <FormInput label={t('contact_page.purchase_form.name_label')} name="name" placeholder={t('contact_page.purchase_form.name_placeholder')} />
+                <FormInput label={t('contact_page.purchase_form.email_label')} type="email" name="email" placeholder={t('contact_page.purchase_form.email_placeholder')} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput label="聯絡電話" name="phone" placeholder="您的電話" />
-                <FormInput label="預計採購數量" type="number" name="quantity" placeholder="1" />
+                <FormInput label={t('contact_page.purchase_form.phone_label')} name="phone" placeholder={t('contact_page.purchase_form.phone_placeholder')} />
+                <FormInput label={t('contact_page.purchase_form.quantity_label')} type="number" name="quantity" placeholder={t('contact_page.purchase_form.quantity_placeholder')} />
             </div>
-            <FormTextarea label="您的問題或特殊需求" name="message" placeholder="例如：是否需要客製化塗裝、特定的感測器配置...等" />
-            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">請求專人聯繫</button>
+            <FormTextarea label={t('contact_page.purchase_form.needs_label')} name="message" placeholder={t('contact_page.purchase_form.needs_placeholder')} />
+            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">{t('contact_page.purchase_form.submit_button')}</button>
           </motion.form>
         );
       case 'sponsorship':
         return (
           <motion.form key="sponsorship" onSubmit={handleSubmit} variants={formVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
-            <h3 className="text-2xl font-bold text-white">成為我們的贊助夥伴</h3>
-            <p className="text-gray-400">感謝您對我們團隊的支持！您的每一份貢獻，都是我們前進的動力。</p>
+            <h3 className="text-2xl font-bold text-white">{t('contact_page.sponsorship_form.title')}</h3>
+            <p className="text-gray-400">{t('contact_page.sponsorship_form.description')}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormInput label="公司/單位名稱" name="company_name" placeholder="您的公司或單位名稱" />
-              <FormInput label="聯絡人姓名" name="contact_person" placeholder="您的姓名" />
+              <FormInput label={t('contact_page.sponsorship_form.company_label')} name="company_name" placeholder={t('contact_page.sponsorship_form.company_placeholder')} />
+              <FormInput label={t('contact_page.sponsorship_form.contact_name_label')} name="contact_person" placeholder={t('contact_page.sponsorship_form.contact_name_placeholder')} />
             </div>
-            <FormInput label="聯絡電子郵件" type="email" name="email" placeholder="you@example.com" />
+            <FormInput label={t('contact_page.sponsorship_form.email_label')} type="email" name="email" placeholder={t('contact_page.sponsorship_form.email_placeholder')} />
             <div>
-              <label htmlFor="logo" className="block text-sm font-medium text-gray-300 mb-1">公司 Logo 上傳</label>
+              <label htmlFor="logo" className="block text-sm font-medium text-gray-300 mb-1">{t('contact_page.sponsorship_form.logo_label')}</label>
               <input
                 type="file"
                 name="logo"
@@ -111,11 +113,11 @@ const ContactPage = () => {
                 accept="image/png, image/jpeg, image/svg+xml"
                 className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-pink file:text-white hover:file:bg-pink-600 transition cursor-pointer"
               />
-              <p className="text-xs text-gray-500 mt-1">（此為模擬上傳，檔案不會實際儲存）</p>
+              <p className="text-xs text-gray-500 mt-1">{t('contact_page.sponsorship_form.logo_simulation_note')}</p>
             </div>
-            <FormTextarea label="預計贊助的品項或金額" name="sponsorship_details" placeholder="例如：提供XX材料、贊助NT$50,000...等" />
-            <FormTextarea label="其他訊息或合作想法" name="other_message" placeholder="歡迎分享任何合作的可能性！" />
-            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">提交贊助意願</button>
+            <FormTextarea label={t('contact_page.sponsorship_form.sponsorship_details_label')} name="sponsorship_details" placeholder={t('contact_page.sponsorship_form.sponsorship_details_placeholder')} />
+            <FormTextarea label={t('contact_page.sponsorship_form.other_message_label')} name="other_message" placeholder={t('contact_page.sponsorship_form.other_message_placeholder')} />
+            <button type="submit" className="w-full bg-brand-pink text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-600 transition-colors duration-300">{t('contact_page.sponsorship_form.submit_button')}</button>
           </motion.form>
         );
       default:
@@ -128,22 +130,22 @@ const ContactPage = () => {
       <div className="container mx-auto px-6 py-16 md:py-24">
         
         <header className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white">聯絡我們</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white">{t('contact_page.header_title')}</h1>
           <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
-            無論您是想親身體驗我們的賽車、洽談採購，或是希望成為我們的贊助夥伴，我們都期待您的來信。
+            {t('contact_page.header_subtitle')}
           </p>
         </header>
 
         <div className="max-w-4xl mx-auto md:flex gap-16">
             {/* Left Info Panel */}
             <div className="md:w-1/3 mb-12 md:mb-0">
-                <h2 className="text-3xl font-bold text-brand-gold mb-6">直接聯繫</h2>
-                <p className="text-gray-400 mb-8">如果您有其他問題，也歡迎透過以下方式直接與我們取得聯繫。</p>
+                <h2 className="text-3xl font-bold text-brand-gold mb-6">{t('contact_page.direct_contact_title')}</h2>
+                <p className="text-gray-400 mb-8">{t('contact_page.direct_contact_subtitle')}</p>
                 <div className="space-y-6">
                     <div className="flex items-start gap-4">
                         <PhoneIcon className="h-6 w-6 text-brand-pink mt-1"/>
                         <div>
-                            <h3 className="font-bold text-white">電話</h3>
+                            <h3 className="font-bold text-white">{t('contact_page.phone')}</h3>
                             {/* 電話號碼 */}
                             <a href="tel:+886-3-5712121" className="text-gray-300 hover:text-brand-pink transition-colors">+886-3-5712121 Ext. 55101</a>
                         </div>
@@ -151,7 +153,7 @@ const ContactPage = () => {
                      <div className="flex items-start gap-4">
                         <EnvelopeIcon className="h-6 w-6 text-brand-pink mt-1"/>
                         <div>
-                            <h3 className="font-bold text-white">電子郵件</h3>
+                            <h3 className="font-bold text-white">{t('contact_page.email')}</h3>
                             <a href="mailto:nycuracing@gmail.com" className="text-gray-300 hover:text-brand-pink transition-colors">nycuracing@gmail.com</a>
                         </div>
                     </div>
