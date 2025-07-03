@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BeakerIcon, BoltIcon, ShieldCheckIcon, Cog8ToothIcon, PaperAirplaneIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { BeakerIcon, BoltIcon, ShieldCheckIcon, Cog8ToothIcon, PaperAirplaneIcon, ChevronDownIcon, ScaleIcon } from '@heroicons/react/24/outline';
 
 const performanceHighlights = [
   { name: '目標重量', value: '350 kg' },
@@ -25,50 +25,109 @@ const chassisStructure = [
   '剛性優化的輕量化設計',
 ];
 
+// --- Simplified Weight Section ---
+
+// Helper function to sum weights in a category
+const sumWeights = (category) => 
+  category.reduce((acc, item) => acc + item.value, 0);
+
+// Original detailed data, now used for calculation instead of direct display
 const massBreakdown = {
   chassis: [
-    { name: '車架', value: '50.8 kg' },
-    { name: '地板關閉件', value: '0.648 kg' },
-    { name: '防火牆', value: '0.378 kg' },
-    { name: 'IA', value: '1.29 kg' },
-    { name: 'AIP', value: '2.36 kg' },
-    { name: '頭部約束裝置', value: '0.42 kg' },
-    { name: '踏板', value: '3.216 kg' },
-    { name: '座椅', value: '1.772 kg' },
-    { name: '安全帶', value: '1.5 kg' },
-    { name: '方向盤', value: '0.245 kg' },
-    { name: '快拆裝置', value: '0.58 kg' },
+    { name: '車架', value: 50.8 },
+    { name: '地板關閉件', value: 0.648 },
+    { name: '防火牆', value: 0.378 },
+    { name: 'IA', value: 1.29 },
+    { name: 'AIP', value: 2.36 },
+    { name: '頭部約束裝置', value: 0.42 },
+    { name: '踏板', value: 3.216 },
+    { name: '座椅', value: 1.772 },
+    { name: '安全帶', value: 1.5 },
+    { name: '方向盤', value: 0.245 },
+    { name: '快拆裝置', value: 0.58 },
   ],
   aero: [
-    { name: '鼻翼', value: '26 kg' },
-    { name: '前翼', value: '5.8 kg' },
-    { name: '後翼', value: '9 kg' },
-    { name: '側板', value: '0.9 kg' },
+    { name: '鼻翼', value: 26 },
+    { name: '前翼', value: 5.8 },
+    { name: '後翼', value: 9 },
+    { name: '側板', value: 0.9 },
   ],
   suspension: [
-    { name: '直立件', value: '2.582 kg' },
-    { name: '輪轂', value: '2.37 kg' },
-    { name: 'A臂', value: '3.76 kg' },
-    { name: '輪圈', value: '14.78 kg' },
-    { name: '輪胎', value: '13.73 kg' },
-    { name: '卡鉗與碟盤', value: '4.76 kg' },
-    { name: '搖臂', value: '1.052 kg' },
-    { name: '避震器', value: '11.04 kg' },
-    { name: '轉向齒條', value: '3.24 kg' },
-    { name: '轉向臂', value: '0.42 kg' },
-    { name: '轉向柱', value: '2.53 kg' },
+    { name: '直立件', value: 2.582 },
+    { name: '輪轂', value: 2.37 },
+    { name: 'A臂', value: 3.76 },
+    { name: '輪圈', value: 14.78 },
+    { name: '輪胎', value: 13.73 },
+    { name: '卡鉗與碟盤', value: 4.76 },
+    { name: '搖臂', value: 1.052 },
+    { name: '避震器', value: 11.04 },
+    { name: '轉向齒條', value: 3.24 },
+    { name: '轉向臂', value: 0.42 },
+    { name: '轉向柱', value: 2.53 },
   ],
   powertrain: [
-    { name: '馬達', value: '13.5 kg' },
-    { name: '差速器', value: '3.2 kg' },
-    { name: '馬達與差速器連接件', value: '8.4 kg' },
-    { name: '控制器', value: '7.5 kg' },
-    { name: '電池箱', value: '126.55 kg' },
-    { name: '高壓電子盒', value: '1.213 kg' },
-    { name: '散熱器', value: '4 kg' },
-    { name: '傳動軸', value: '5 kg' },
+    { name: '馬達', value: 13.5 },
+    { name: '差速器', value: 3.2 },
+    { name: '馬達與差速器連接件', value: 8.4 },
+    { name: '控制器', value: 7.5 },
+    { name: '電池箱', value: 126.55 },
+    { name: '高壓電子盒', value: 1.213 },
+    { name: '散熱器', value: 4 },
+    { name: '傳動軸', value: 5 },
   ],
 };
+
+const chassisWeight = sumWeights(massBreakdown.chassis);
+const aeroWeight = sumWeights(massBreakdown.aero);
+const suspensionWeight = sumWeights(massBreakdown.suspension);
+const powertrainWeight = sumWeights(massBreakdown.powertrain);
+const totalWeight = chassisWeight + aeroWeight + suspensionWeight + powertrainWeight;
+
+const weightStats = [
+    { 
+        name: '總整備重量', 
+        value: totalWeight.toFixed(1),
+        unit: 'kg',
+        description: '車輛在賽道上準備就緒時的總重量，包含所有液體。'
+    },
+    { 
+        name: '底盤與空力總重', 
+        value: (chassisWeight + aeroWeight).toFixed(1),
+        unit: 'kg',
+        description: '結構核心與空氣動力學套件的重量，輕量化的關鍵。'
+    },
+    { 
+        name: '動力與傳動總重', 
+        value: (suspensionWeight + powertrainWeight).toFixed(1),
+        unit: 'kg',
+        description: '包含馬達、電池、懸吊等，直接影響性能與操控。'
+    },
+]
+
+const WeightSection = () => (
+    <Section title="關鍵重量指標">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            {weightStats.map((stat, index) => (
+                <motion.div 
+                    key={index}
+                    className="bg-gray-700/50 p-6 rounded-xl border border-gray-600 flex flex-col items-center justify-center"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                    <ScaleIcon className="w-10 h-10 text-brand-gold mb-3" />
+                    <h4 className="text-xl font-semibold text-white mb-1">{stat.name}</h4>
+                    <p className="text-5xl font-bold text-brand-pink tracking-tighter">
+                        {stat.value}
+                        <span className="text-2xl font-medium text-gray-400 ml-1">{stat.unit}</span>
+                    </p>
+                    <p className="text-gray-400 mt-2 text-sm">{stat.description}</p>
+                </motion.div>
+            ))}
+        </div>
+    </Section>
+);
 
 const highlightData = [
   {
@@ -220,7 +279,7 @@ const Section = ({ title, children }) => (
 
 const techDetailsData = {
   suspension: {
-    icon: BeakerIcon, // Using Beaker for 'design/experiment'
+    icon: BeakerIcon,
     title: '懸吊與輪胎',
     content: [
       {
@@ -342,174 +401,124 @@ const techDetailsData = {
 };
 
 const TechDetailsSection = () => {
-    const [activeTab, setActiveTab] = useState(Object.keys(techDetailsData)[0]);
-    const activeData = techDetailsData[activeTab];
+  const [activeTab, setActiveTab] = useState(Object.keys(techDetailsData)[0]);
 
-    const renderContent = (item, index) => {
-        switch (item.type) {
-            case 'heading':
-                return <h3 key={index} className="text-3xl font-bold text-brand-gold mt-8 mb-6">{item.text}</h3>;
-            case 'subheading':
-                return <h4 key={index} className="text-xl font-bold text-brand-pink mt-4 mb-2">{item.text}</h4>
-            case 'paragraph':
-                return <p key={index} className="text-gray-300 mb-4">{item.text}</p>
-            case 'target':
-                return <p key={index} className="text-brand-gold bg-gray-800/50 inline-block px-3 py-1 rounded-md mb-4">{item.text}</p>
-            case 'list':
-                return <ul key={index} className="space-y-3 list-disc list-inside text-gray-300">{item.items.map((li, i) => <li key={i}>{li}</li>)}</ul>
-            case 'image':
-                return <img key={index} src={item.src} alt={item.alt} className="w-full h-auto rounded-lg shadow-lg mb-4" />
-            case 'image_grid':
-                return <div key={index} className="grid grid-cols-2 gap-4 my-4">{item.images.map((src, i) => <img key={i} src={src} className="rounded-lg shadow-md" alt={`detail-${i}`} />)}</div>
-            case 'key_value_grid':
-                return <div key={index} className="grid md:grid-cols-2 gap-6 my-4">{item.items.map(kv => <div key={kv.key} className="bg-gray-800 p-4 rounded-lg"><p className="font-bold text-brand-pink">{kv.key}</p><p className="text-gray-300">{kv.value}</p></div>)}</div>
-            case 'split_layout':
-                const leftContent = <div className="flex-1 space-y-4">{item.left.map(renderContent)}</div>
-                const rightContent = <div className="flex-1 space-y-4">{item.right.map(renderContent)}</div>
-                return (
-                    <div key={index} className={`flex flex-col md:flex-row gap-8 ${item.reverse ? 'md:flex-row-reverse' : ''}`}>
-                        {leftContent}
-                        {rightContent}
-                    </div>
-                )
-            default:
-                return null;
-        }
-    }
+  const renderContent = (item, index) => {
+    if (!item) return null;
 
-    return (
-        <div className="bg-gray-800/50 p-4 sm:p-8 rounded-xl shadow-2xl">
-            {/* Mobile: Horizontal Scroll */}
-            <div className="md:hidden mb-6">
-                <div className="flex space-x-2 overflow-x-auto pb-4 -mx-4 px-4">
-                {Object.entries(techDetailsData).map(([key, { icon: Icon, title }]) => (
-                    <button
-                        key={key}
-                        onClick={() => setActiveTab(key)}
-                        className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 flex items-center gap-2 ${activeTab === key ? 'bg-brand-pink text-white' : 'bg-gray-700 text-gray-200'}`}
-                    >
-                        <Icon className="h-5 w-5"/>
-                        <span>{title}</span>
-                    </button>
-                ))}
+    switch(item.type) {
+        case 'heading':
+            return <h4 key={index} className="text-xl font-bold text-brand-gold mt-6 mb-2">{item.text}</h4>;
+        case 'subheading':
+            return <h5 key={index} className="text-lg font-semibold text-white mt-4 mb-1">{item.text}</h5>;
+        case 'paragraph':
+            return <p key={index} className="text-gray-300 mb-2">{item.text}</p>;
+        case 'target':
+            return <p key={index} className="text-brand-pink/90 font-semibold mb-2">» {item.text}</p>;
+        case 'list':
+            return (
+                <ul key={index} className="list-disc list-inside space-y-1 text-gray-300">
+                    {item.items.map((li, i) => <li key={i}>{li}</li>)}
+                </ul>
+            );
+        case 'split_layout':
+            return (
+                <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+                    <div className="space-y-2">{item.left.map(renderContent)}</div>
+                    <div className="space-y-4">{item.right.map(renderContent)}</div>
                 </div>
-            </div>
+            );
+        case 'image':
+            return <img key={index} src={item.src} alt={item.alt} className="rounded-lg shadow-md w-full" />;
+        case 'image_grid':
+            return <div key={index} className="grid grid-cols-2 gap-4 my-4">{item.images.map((src, i) => <img key={i} src={src} className="rounded-lg shadow-md" alt={`detail-${i}`} />)}</div>
+        case 'key_value_grid':
+            return <div key={index} className="grid md:grid-cols-2 gap-6 my-4">{item.items.map(kv => <div key={kv.key} className="bg-gray-800 p-4 rounded-lg"><p className="font-bold text-brand-pink">{kv.key}</p><p className="text-gray-300">{kv.value}</p></div>)}</div>
+        default:
+            return null;
+    }
+  };
 
-            <div className="flex flex-col md:flex-row gap-8">
-                {/* Desktop Sidebar */}
-                <aside className="hidden md:block md:w-1/4 lg:w-1/5">
+  return (
+    <Section title="技術細節深入探討">
+        <div className="flex flex-col md:flex-row gap-8">
+            <div className="w-full md:w-1/4">
+                <nav className="sticky top-28">
                     <ul className="space-y-2">
-                        {Object.entries(techDetailsData).map(([key, { icon: Icon, title }]) => (
-                            <li key={key}>
-                                <button
-                                    onClick={() => setActiveTab(key)}
-                                    className={`w-full text-left px-4 py-3 rounded-lg transition-colors duration-200 flex items-center gap-4 ${activeTab === key ? 'bg-brand-pink text-white font-bold' : 'bg-gray-700 hover:bg-gray-600 text-gray-200'}`}
-                                >
-                                    <Icon className="h-6 w-6"/>
-                                    {title}
-                                </button>
-                            </li>
-                        ))}
+                        {Object.keys(techDetailsData).map(key => {
+                            const Icon = techDetailsData[key].icon;
+                            return (
+                                <li key={key}>
+                                    <button
+                                        onClick={() => setActiveTab(key)}
+                                        className={`w-full text-left px-4 py-3 rounded-lg transition-colors duration-200 flex items-center gap-3 ${
+                                            activeTab === key
+                                                ? 'bg-brand-pink text-white font-bold shadow-lg'
+                                                : 'bg-gray-700 hover:bg-gray-600 text-gray-200'
+                                        }`}
+                                    >
+                                        <Icon className="w-6 h-6 flex-shrink-0" />
+                                        <span>{techDetailsData[key].title}</span>
+                                    </button>
+                                </li>
+                            )
+                        })}
                     </ul>
-                </aside>
-
-                {/* Content */}
-                <main className="w-full">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={activeTab}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            {activeData.content.map(renderContent)}
-                        </motion.div>
-                    </AnimatePresence>
-                </main>
+                </nav>
+            </div>
+            <div className="w-full md:w-3/4">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeTab}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {techDetailsData[activeTab].content.map(renderContent)}
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </div>
-    )
-}
+    </Section>
+  );
+};
 
 const VehicleSpecPage = () => {
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
-      <div className="container mx-auto px-6 py-16 md:py-24">
-
-        <header className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white">VR7.5 車輛規格</h1>
-          <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
-            深入了解構成我們賽車的每一個精密組件與性能指標。
-          </p>
-        </header>
-        
-        <HighlightsSection />
-
-        <div className="my-16 h-1 bg-gray-800 rounded-full"></div>
-
-        <TechDetailsSection />
-
-        <div className="my-16 h-1 bg-gray-800 rounded-full"></div>
-
-        {/* Performance Highlights Section */}
-        <div className="bg-gray-800/50 p-8 rounded-xl shadow-2xl mb-16">
-            <h2 className="text-4xl font-bold text-center mb-8 text-brand-gold">性能概覽</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <Section title="性能亮點">
-                    <ul className="space-y-2">
-                        {performanceHighlights.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono font-bold">{item.value}</span></li>)}
-                    </ul>
-                </Section>
-                <Section title="感測器套件">
-                    <ul className="space-y-2 list-disc list-inside">
-                        {sensorSuite.map(item => <li key={item}>{item}</li>)}
-                    </ul>
-                </Section>
-                <Section title="動力總成">
-                     <ul className="space-y-2">
-                        {powertrain.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono font-bold">{item.value}</span></li>)}
-                    </ul>
-                </Section>
-                <Section title="底盤與結構">
-                    <ul className="space-y-2 list-disc list-inside">
-                        {chassisStructure.map(item => <li key={item}>{item}</li>)}
-                    </ul>
-                </Section>
-            </div>
-        </div>
-
-        {/* Mass Breakdown Section */}
-        <div>
-            <header className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-brand-gold">重量詳細分解</h2>
-                <p className="mt-2 text-2xl font-mono text-brand-pink bg-gray-800 inline-block px-4 py-1 rounded-md">無駕駛員總重: 382.36 kg</p>
+    <div className="bg-gray-900 text-white">
+        <div className="container mx-auto px-6 py-16">
+            <header className="text-center mb-16">
+                <h1 className="text-5xl md:text-6xl font-extrabold text-white">VR7.5 技術規格</h1>
+                <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
+                    深入了解驅動我們最新賽車的工程細節與設計理念。
+                </p>
             </header>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <Section title="底盤">
-                    <ul className="space-y-1 text-sm">
-                        {massBreakdown.chassis.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
-                    </ul>
-                </Section>
-                <Section title="空氣動力學">
-                    <ul className="space-y-1 text-sm">
-                        {massBreakdown.aero.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
-                    </ul>
-                </Section>
-                <Section title="懸吊系統">
-                     <ul className="space-y-1 text-sm">
-                        {massBreakdown.suspension.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
-                    </ul>
-                </Section>
-                <Section title="動力總成">
-                    <ul className="space-y-1 text-sm">
-                        {massBreakdown.powertrain.map(item => <li key={item.name} className="flex justify-between"><span>{item.name}:</span> <span className="font-mono">{item.value}</span></li>)}
-                    </ul>
-                </Section>
-            </div>
-        </div>
 
-      </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 text-center">
+                {performanceHighlights.map((item, index) => (
+                    <motion.div 
+                        key={index} 
+                        className="bg-gray-800 p-6 rounded-lg"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                        <p className="text-gray-400 text-sm">{item.name}</p>
+                        <p className="text-3xl font-bold text-brand-pink">{item.value}</p>
+                    </motion.div>
+                ))}
+            </div>
+
+            <HighlightsSection />
+            
+            <div className="space-y-12 mt-16">
+                <WeightSection />
+                <TechDetailsSection />
+            </div>
+
+        </div>
     </div>
   );
 };

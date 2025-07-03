@@ -23,6 +23,7 @@ const galleryImages = [
 const CarGallery = () => (
   <Swiper
     modules={[Navigation, Pagination, EffectCoverflow]}
+    loop={true}
     effect={'coverflow'}
     grabCursor={true}
     centeredSlides={true}
