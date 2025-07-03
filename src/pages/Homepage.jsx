@@ -170,23 +170,78 @@ function Experience({ isMobile, pages }) {
   );
 }
 
+// New, simplified component for mobile devices
+const MobileHomepage = () => {
+    const { t } = useTranslation();
+
+    return (
+        <div className="w-full bg-gray-900 text-white overflow-y-auto h-screen">
+            {/* Page 1: Hero Section */}
+            <div className="relative h-screen">
+                <Swiper
+                    modules={[EffectFade, Autoplay]}
+                    effect="fade"
+                    loop={true}
+                    autoplay={{ delay: 1000, disableOnInteraction: false }}
+                    className="absolute inset-0 w-full h-full z-10"
+                >
+                    {slideImages.map((image, index) => (
+                        <SwiperSlide key={index}>
+                            <img src={image.url} alt={image.alt} className="w-full h-full object-cover" />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                <div className="absolute inset-0 bg-black opacity-60 z-20"></div>
+                <div className="relative h-full flex flex-col justify-center items-center text-center px-4 z-30">
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white">{t('homepage.hero_title_1')}</h1>
+                    <h2 className="text-5xl md:text-7xl font-bold text-brand-pink mt-2">{t('homepage.hero_title_2')}</h2>
+                    <p className="mt-8 max-w-2xl mx-auto text-lg text-gray-300">
+                        {t('homepage.hero_desc')}
+                    </p>
+                </div>
+            </div>
+
+            {/* Page 2: Introductory text */}
+            <div className="min-h-screen flex flex-col justify-center items-center text-center p-8">
+                <h2 className="text-4xl font-bold text-white mb-4">{t('homepage.intro_title')}</h2>
+                <p className="max-w-3xl text-gray-300">
+                    {t('homepage.intro_desc')}
+                </p>
+            </div>
+
+            {/* Page 3: CTA Section */}
+            <div className="min-h-screen flex items-center justify-center">
+                <CtaSection inView={true} />
+            </div>
+
+            {/* Page 4: Feature Section */}
+            <div className="flex flex-col py-20 items-center justify-center">
+                <FeatureSection inView={true} />
+            </div>
+        </div>
+    );
+};
+
 const Homepage = () => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const pages = isMobile ? 5 : 4;
+    if (isMobile) {
+        return <MobileHomepage />;
+    }
+
+    const pages = 5; // Adjusted based on previous mobile settings, desktop can keep it simple.
 
     return (
         <div className="w-full h-screen bg-gray-900">
             <Canvas>
                 <ScrollControls pages={pages} damping={0.3}>
-                    <Experience isMobile={isMobile} pages={pages} />
+                    <Experience isMobile={false} pages={pages} />
                     <ResponsiveCamera />
                 </ScrollControls>
             </Canvas>
