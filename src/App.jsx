@@ -3,7 +3,6 @@ import { MotionConfig, AnimatePresence } from 'framer-motion';
 import MainLayout from './components/MainLayout';
 import Homepage from './pages/Homepage';
 import AboutPage from './pages/AboutPage';
-import CarPage from './pages/CarPage';
 import ProductsPage from './pages/ProductsPage';
 import VehicleSpecPage from './pages/VehicleSpecPage';
 import PartnersPage from './pages/PartnersPage';
@@ -26,7 +25,6 @@ function AppRoutes() {
         <Route path="/specs" element={<VehicleSpecPage />} />
         <Route path="/partners" element={<PartnersPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/car" element={<CarPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route 
           path="/dashboard" 
