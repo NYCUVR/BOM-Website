@@ -157,7 +157,7 @@ function Experience({ isMobile, pages }) {
           <div
             className="flex"
             style={{
-              height: isMobile ? '150vh' : '100vh',
+              height: isMobile ? '200vh' : '100vh',
               alignItems: isMobile ? 'flex-start' : 'center',
               paddingTop: isMobile ? '10rem' : '0',
             }}
@@ -180,7 +180,7 @@ const Homepage = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    const pages = isMobile ? 4.5 : 4;
+    const pages = isMobile ? 5 : 4;
 
     return (
         <div className="w-full h-screen bg-gray-900">

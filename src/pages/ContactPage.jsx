@@ -163,7 +163,7 @@ const ContactPage = () => {
             {/* Right Form Panel */}
             <div className="md:w-2/3 bg-gray-800 p-8 rounded-2xl shadow-2xl">
                 {/* Tabs */}
-                <div className="mb-8 flex space-x-1 bg-gray-700 rounded-lg p-1">
+                <div className="mb-8 flex flex-wrap gap-1 bg-gray-700 rounded-lg p-1">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
