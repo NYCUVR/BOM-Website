@@ -144,6 +144,7 @@ const ContactPage = () => {
                         <PhoneIcon className="h-6 w-6 text-brand-pink mt-1"/>
                         <div>
                             <h3 className="font-bold text-white">電話</h3>
+                            {/* 電話號碼 */}
                             <a href="tel:+886-3-5712121" className="text-gray-300 hover:text-brand-pink transition-colors">+886-3-5712121 Ext. 55101</a>
                         </div>
                     </div>
@@ -151,7 +152,7 @@ const ContactPage = () => {
                         <EnvelopeIcon className="h-6 w-6 text-brand-pink mt-1"/>
                         <div>
                             <h3 className="font-bold text-white">電子郵件</h3>
-                            <a href="mailto:contact@youracing.team" className="text-gray-300 hover:text-brand-pink transition-colors">contact@youracing.team</a>
+                            <a href="mailto:nycuracing@gmail.com" className="text-gray-300 hover:text-brand-pink transition-colors">nycuracing@gmail.com</a>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { useRef, useState, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Scroll, ScrollControls, useScroll } from '@react-three/drei';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Autoplay } from 'swiper/modules';
@@ -10,28 +10,35 @@ import { lerp } from 'three/src/math/MathUtils';
 
 import FeatureSection from '../components/FeatureSection';
 import CtaSection from '../components/CtaSection';
+import { CarModel } from '../components/CarModel';
 
-// 3D Placeholder Model
-function PlaceholderModel(props) {
-  const meshRef = useRef();
-  useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = meshRef.current.rotation.y += 0.005;
-    }
-  });
-  return (
-    <mesh {...props} ref={meshRef}>
-      <icosahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#e31d93" roughness={0.5} metalness={0.5} />
-    </mesh>
-  );
+// Responsive Camera
+function ResponsiveCamera() {
+    const { camera } = useThree();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useFrame(() => {
+        const targetFov = isMobile ? 70 : 45;
+        camera.fov = lerp(camera.fov, targetFov, 0.1);
+        camera.updateProjectionMatrix();
+    });
+
+    return null;
 }
 
 const slideImages = [
-  { url: "https://placehold.co/1920x1080/000000/FFFFFF.png?text=racing+1", alt: "A formula car on the track" },
-  { url: "https://placehold.co/1920x1080/111111/FFFFFF.png?text=racing+2", alt: "Data visualization dashboard" },
-  { url: "https://placehold.co/1920x1080/222222/FFFFFF.png?text=racing+3", alt: "Engineers working on a car" },
-  { url: "https://placehold.co/1920x1080/222222/FFFFFF.png?text=racing+4", alt: "Engineers working on a car" },
+  { url: "/m_bg_01.jpg", alt: "A formula car on the track" },
+  { url: "/m_bg_02.jpg", alt: "Close up on a racing car wheel" },
+  { url: "/y_bg_03.jpg", alt: "Engineers working on a car" },
+  { url: "/y_bg_04.jpg", alt: "Racing car cockpit view" },
+  { url: "/y_bg_05.jpg", alt: "Racing car cockpit view" },
+  { url: "/y_bg_06.jpg", alt: "Racing car cockpit view" },
 ];
 
 // This component contains all the 3D and HTML scroll content
@@ -62,7 +69,7 @@ function Experience() {
     <>
       {/* 3D Model */}
       <group ref={modelRef}>
-        <PlaceholderModel scale={1.8} position={[0, -1, 0]} />
+        <CarModel scale={0.8} position={[0, -1.5, 0]} rotation={[0, -Math.PI / 4, 0]}/>
       </group>
 
       {/* HTML Content overlay */}
@@ -79,7 +86,7 @@ function Experience() {
               >
                 {slideImages.map((image, index) => (
                   <SwiperSlide key={index}>
-                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${image.url})` }}></div>
+                    <img src={image.url} alt={image.alt} className="w-full h-full object-cover" />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -119,7 +126,8 @@ function Experience() {
 const Homepage = () => {
   return (
     <div className="absolute top-0 left-0 w-full h-full">
-      <Canvas shadows camera={{ position: [0, 0, 8], fov: 45 }}>
+      <Canvas shadows camera={{ position: [0, 0, 8] }}>
+        <ResponsiveCamera />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow />
         <ScrollControls pages={4} damping={0.1}>

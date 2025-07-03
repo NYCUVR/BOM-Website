@@ -12,11 +12,11 @@ import 'swiper/css/effect-coverflow';
 import { CogIcon, ChartBarIcon, WrenchScrewdriverIcon, XMarkIcon, ChevronDownIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 const galleryImages = [
-  'https://placehold.co/800x600/111827/ffffff.png?text=VR7.5+車頭視角',
-  'https://placehold.co/800x600/1f2937/ffffff.png?text=駕駛艙細節',
-  'https://placehold.co/800x600/374151/ffffff.png?text=側面空氣動力學套件',
-  'https://placehold.co/800x600/4b5563/ffffff.png?text=後懸吊與動力單元',
-  'https://placehold.co/800x600/6b7280/ffffff.png?text=賽道動態'
+  '/y_assm_01.jpg',
+  '/y_assm_02.jpg',
+  '/y_assm_03.jpg',
+  '/y_assm_04.jpg',
+  '/m_assm_05.jpg'
 ];
 
 // --- MOCK DATA GENERATION ---
@@ -286,7 +286,7 @@ const ProductsPage = () => {
         <ServiceSection
             icon={TruckIcon}
             title="賽道日物流與支援"
-            visual={<VisualPlaceholder src="https://placehold.co/800x600/1f2937/ffffff.png?text=賽道運輸" alt="Track Day Logistics" />}
+            visual={<VisualPlaceholder src="/m_shipping_01.jpg" alt="Track Day Logistics" />}
         >
             <p>專注於您的比賽，將繁瑣的物流交給我們。我們提供高性價比的賽車運輸服務，確保您的愛車能準時、安全地抵達全台各大賽車場。</p>
             <p>此服務包含車輛的往返運輸以及基本的場邊技術諮詢，讓您能以最佳狀態迎接每一個賽道日。</p>
@@ -295,7 +295,7 @@ const ProductsPage = () => {
         <ServiceSection
             icon={ShieldCheckIcon}
             title="全年保固與維護"
-            visual={<VisualPlaceholder src="https://placehold.co/800x600/1f2937/ffffff.png?text=保固服務" alt="Warranty and Maintenance" />}
+            visual={<VisualPlaceholder src="/m_warranty_01.jpg" alt="Warranty and Maintenance" />}
             reverse={true}
         >
             <p>我們對我們的工藝充滿信心。因此，每一輛 VR7.5 都提供首年免費的全方位保固服務。</p>
