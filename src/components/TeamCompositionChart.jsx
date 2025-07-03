@@ -1,104 +1,74 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useTranslation } from 'react-i18next';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 
-// Custom plugin to draw text in the center
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+// A plugin to draw text in the center of the doughnut chart
 const centerTextPlugin = {
   id: 'centerText',
-  afterDraw: (chart) => {
-    if (chart.config.options.plugins.centerText.display) {
-      const { ctx } = chart;
-      const { top, left, width, height } = chart.chartArea;
-      const centerX = left + width / 2;
-      const centerY = top + height / 2;
-      
-      ctx.save();
-      
-      // Total members number
-      ctx.font = 'bold 3rem sans-serif'; // Corresponds to text-5xl font-bold
-      ctx.fillStyle = '#FFFFFF'; // text-white
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const total = chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
-      ctx.fillText(total, centerX, centerY - 12);
+  afterDraw: (chart, args, options) => {
+    if (!options.text) return;
+    const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    ctx.save();
+    
+    const centerX = (left + right) / 2;
+    const centerY = (top + bottom) / 2;
+    
+    ctx.font = `bold ${options.fontSize || '24px'} ${options.fontFamily || 'sans-serif'}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = options.color || '#FFFFFF';
 
-      // "Total Members" text
-      const text = chart.config.options.plugins.centerText.text;
-      ctx.font = '1.125rem sans-serif'; // Corresponds to text-lg
-      ctx.fillStyle = '#9ca3af'; // text-gray-400
-      ctx.fillText(text, centerX, centerY + 24);
-      
-      ctx.restore();
+    // Main text (total number)
+    ctx.fillText(options.text, centerX, centerY - (options.subtext ? 8 : 0));
+    
+    // Subtext
+    if (options.subtext) {
+      ctx.font = `${options.subtextFontSize || '12px'} ${options.fontFamily || 'sans-serif'}`;
+      ctx.fillStyle = options.subtextColor || '#A0AEC0'; // gray-400
+      ctx.fillText(options.subtext, centerX, centerY + 12);
     }
-  }
+
+    ctx.restore();
+  },
 };
 
-ChartJS.register(ArcElement, Tooltip, Legend, centerTextPlugin);
-
-const TeamCompositionChart = () => {
+const TeamCompositionChart = ({ data }) => {
   const { t } = useTranslation();
 
   const chartData = {
-    labels: [
-      t('team_chart.label_remanufacturing'),
-      t('team_chart.label_marketing'),
-      t('team_chart.label_it'),
-      t('team_chart.label_electrical'),
-      t('team_chart.label_mechanical'),
-    ],
+    labels: data.map(item => t(`team_chart.${item.id}.label`)),
     datasets: [
       {
         label: t('team_chart.dataset_label'),
-        data: [6, 7, 8, 10, 15],
+        data: data.map(item => item.value),
         backgroundColor: [
-          '#ef4444', // Red-500
-          '#d946ef', // Fuchsia-500
-          '#8b5cf6', // Violet-500
-          '#3b82f6', // Blue-500
-          '#14b8a6', // Teal-500
+          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+          '#9966FF', '#FF9F40', '#C9CBCF'
         ],
-        borderColor: '#1f2937', // Gray-800
-        borderWidth: 4,
-        hoverOffset: 32,
-        hoverBorderWidth: 8,
-        hoverBorderColor: '#FFFFFF',
+        borderColor: '#1A202C', // bg-gray-800
+        borderWidth: 2,
+        hoverOffset: 4,
       },
     ],
   };
 
-  const totalMembers = chartData.datasets[0].data.reduce((a, b) => a + b, 0);
+  const totalMembers = data.reduce((sum, item) => sum + item.value, 0);
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: '60%',
-    layout: {
-      padding: {
-        right: 20, // Add space between chart and legend
-      }
-    },
+    cutout: '70%',
     plugins: {
-      centerText: {
-        display: true,
-        text: t('team_chart.center_text_total'),
-      },
       legend: {
-        display: true,
-        position: 'right',
-        labels: {
-          color: '#d1d5db',
-          font: {
-            size: 14,
-          }
-        }
+        display: false,
       },
       tooltip: {
+        backgroundColor: '#2D3748', // gray-700
+        titleColor: '#FFFFFF',
+        bodyColor: '#E2E8F0', // gray-200
         callbacks: {
           label: function(context) {
             let label = context.label || '';
@@ -106,19 +76,55 @@ const TeamCompositionChart = () => {
               label += ': ';
             }
             if (context.parsed !== null) {
-              label += context.parsed;
+              label += `${context.parsed} members`;
             }
             return label;
           }
         }
+      },
+      centerText: {
+        text: totalMembers,
+        subtext: t('team_chart.center_text_total'),
+        color: '#FFFFFF',
+        fontSize: '36px',
+        subtextColor: '#A0AEC0',
+        subtextFontSize: '14px',
       }
     },
   };
+  
+  ChartJS.register(centerTextPlugin);
 
   return (
-    <div className="relative w-full h-80 md:h-96">
-      <Doughnut data={chartData} options={options} />
-    </div>
+    <section id="team" className="py-16 md:py-24">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
+          {t('team_chart.title')}
+        </h2>
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+          {/* Chart */}
+          <div className="relative w-full max-w-sm h-72 md:h-96">
+            <Doughnut data={chartData} options={options} />
+          </div>
+
+          {/* Descriptions */}
+          <div className="w-full lg:w-1/2 space-y-4">
+            {data.map((item, index) => (
+              <div key={item.id} className="flex items-start gap-4">
+                <div 
+                  className="mt-1.5 w-4 h-4 rounded-full flex-shrink-0" 
+                  style={{ backgroundColor: chartData.datasets[0].backgroundColor[index] }}
+                ></div>
+                <div>
+                  <h4 className="font-bold text-lg text-white">{t(`team_chart.${item.id}.label`)} ({item.value})</h4>
+                  <p className="text-gray-400">{t(`team_chart.${item.id}.description`)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

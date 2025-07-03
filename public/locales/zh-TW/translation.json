@@ -1,0 +1,274 @@
+{
+    "navbar": {
+        "home": "首頁",
+        "about": "關於我們",
+        "car": "實車鑑賞",
+        "specs": "車輛規格",
+        "products": "產品與服務",
+        "partners": "合作夥伴",
+        "contact": "聯絡我們",
+        "login": "登入",
+        "dashboard": "儀表板",
+        "logout": "登出"
+    },
+    "footer": {
+        "company_name": "BOM | Apex Innovations",
+        "slogan": "以數據驅動賽車工程的未來。",
+        "all_rights_reserved": "版權所有。",
+        "social_media": "社群媒體",
+        "legal": "法律資訊",
+        "privacy_policy": "隱私權政策",
+        "terms_of_service": "服務條款"
+    },
+    "homepage": {
+        "hero_title_1": "你的第一台方程式賽車",
+        "hero_title_2": "從這裡開始",
+        "hero_desc": "我們致力於打造高性能、高安全性、易於駕駛的入門級方程式賽車，結合雲端智能分析，助每一位愛好者實現賽道夢想。",
+        "intro_title": "不只製造，更是賦能",
+        "intro_desc": "每一台賽車都搭載我們的核心技術：與雲端 AI 相連的智能大腦。它不僅是你的座駕，更是你的專屬教練與工程師，與你共同成長，釋放全部潛力。",
+        "cta_title": "準備好上賽道了嗎？",
+        "cta_desc": "我們的專家團隊將協助您了解車輛的每一個細節，並為您量身打造最適合的方案。立即預約一對一線上諮詢。",
+        "cta_button": "預約諮詢",
+        "feature_section_title": "一個完整的賽車生態系",
+        "feature_section_desc": "從硬體到軟體，從賽道到雲端，我們提供您所需的一切，讓您能專注於最純粹的駕駛樂趣。",
+        "feature1_title": "入門級方程式賽車",
+        "feature1_desc": "我們打造兼具高性能、極致安全與合理成本的方程式賽車，是您踏入賽車運動的最佳夥伴。",
+        "feature2_title": "雲端 AI 數據分析",
+        "feature2_desc": "透過我們強大的雲端 AI 平台，分析您的每一次過彎、每一次加速，將數據轉化為您在賽道上的絕對優勢。",
+        "feature3_title": "即時數據儀表板",
+        "feature3_desc": "在駕駛艙內，所有關鍵車輛數據與 AI 建議一目了然。我們提供高度客製化的即時儀表板，讓您全盤掌控。",
+        "scroll_to_explore": "向下捲動以探索",
+        "section_title_1": "VR7.5",
+        "section_content_1": "BOM 的最新力作，一輛為了極致性能而生的學生方程式賽車。它不僅是速度的機器，更是數據科學、空氣動力學與尖端電能技術的結晶。",
+        "section_title_2": "AI 智慧模擬",
+        "section_content_2": "我們的核心服務。透過高擬真度的虛擬實境試駕，即時捕捉超過 500 項駕駛參數。AI 將這些原始數據轉化為可執行的洞見，幫助車隊在真實賽道上做出更明智的決策。",
+        "section_title_3": "循環經濟",
+        "section_content_3": "賽車工業也可以是永續的。VR7.5 的部分零件採用回收碳纖維與再製合金打造，在追求極致性能的同時，我們也致力於減少對環境的衝擊。",
+        "final_cta_text": "準備好體驗未來的賽車工程了嗎？"
+    },
+    "about": {
+        "corporate_header_title": "擘劃賽車運動的未來",
+        "corporate_header_subtitle": "我們是專業工程師與策略分析師的集合體，致力於整合先進數據分析、永續再製造與雲端技術，以重新定義賽道內外的性能標竿。",
+        "header_title": "我們的旅程",
+        "header_subtitle": "我們不僅僅是一個賽車隊，我們是創新、熱情與次世代工程的樞紐。",
+        "mission_title": "我們的使命",
+        "mission_desc": "我們的使命是在學生方程式賽車的競爭環境中，推動電動車技術和永續工程的極限。我們致力於培養創新、實作學習和團隊合作的文化，為我們的成員成為汽車和科技行業的未來領導者做好準備。",
+        "timeline_title": "我們的歷史：里程碑時間軸",
+        "team_composition_title": "我們的團隊組成",
+        "team_composition_desc": "我們的力量在於我們的多樣性。我們是一個由來自不同工程和管理背景的學生組成的多學科團隊，所有人都因對賽車和創新的單一熱情而團結在一起。",
+        "future_goals_title": "展望未來：我們的未來目標",
+        "future_goals_subtitle": "前方的道路令人興奮。這是我們的方向。",
+        "goal1_title": "國際比賽前十名",
+        "goal1_desc": "利用我們先進的 AI 數據分析和車輛設計，在國際汽聯學生方程式比賽中取得前十名的成績。",
+        "goal2_title": "全碳纖維單體殼",
+        "goal2_desc": "從鋼製空間桁架底盤過渡到全碳纖維單體殼底盤，以顯著減輕重量和增加剛性。",
+        "goal3_title": "自動駕駛賽車部門",
+        "goal3_desc": "成立一個新部門，專門為學生方程式無人駕駛比賽開發自動駕駛系統。",
+        "sdgs_title": "我們對可持續發展的承諾",
+        "vision_features_title": "願景與特點",
+        "services_title": "我們的服務",
+        "services_electric_car": "電動賽車製造",
+        "services_data_analysis": "賽事數據分析（附帶高級 AI 訂閱）",
+        "why_stand_out_title": "我們為何脫穎而出",
+        "why_stand_out_affordable": "經濟實惠的入門級賽車",
+        "why_stand_out_cloud_ai": "基於雲端的 AI 調校",
+        "why_stand_out_modular": "模組化可替換組件",
+        "why_stand_out_partner": "合作夥伴賽道網絡",
+        "why_stand_out_warranty": "首年全車保固",
+        "history_title": "我們的旅程與里程碑",
+        "team_title": "團隊組成",
+        "team_desc1": "我們的團隊是工程人才的動力源泉，由敬業的專業人士和機械、電氣及軟體工程領域的資深專家組成。",
+        "team_desc2": "這種多元技能的策略性結合，營造了一個獨特的創新和協作解決問題的環境，為我們的合作夥伴帶來了切實的成果。",
+        "sdgs_section_title": "我們對永續創新的承諾",
+        "sdg4_title": "賦能人才",
+        "sdg4_desc": "我們與頂尖學術機構合作，彌合理論與產業之間的差距。我們的高水平研發專案作為一個平台，培養具備尖端實踐經驗的專業人才。",
+        "sdg9_title": "開創性基礎設施",
+        "sdg9_desc": "VR7.5 是我們致力於創新的證明。從先進複合材料到 AI 驅動的數據分析，我們推動技術邊界，為永續交通基礎設施的未來做出貢獻。",
+        "sdg12_title": "循環經濟領導力",
+        "sdg12_desc": "我們將循環經濟原則融入設計過程，優先考慮可回收材料，並探索組件的再生價值，以在賽車運動中提供「從搖籃到搖籃」的解決方案。"
+    },
+    "team_chart": {
+        "title": "我們的團隊組成",
+        "dataset_label": "成員數量",
+        "center_text_total": "專家總數",
+        "remanufacturing": {
+            "label": "再製造工程師",
+            "description": "零件檢測、分級、翻新流程開發、品質保證"
+        },
+        "carbon": {
+            "label": "碳足跡與永續發展",
+            "description": "車輛與零件碳足跡的生命週期評估(LCA)追蹤；碳中和認證"
+        },
+        "mechanical": {
+            "label": "機械工程",
+            "description": "底盤、懸吊、結構設計與分析"
+        },
+        "electrical": {
+            "label": "電機工程",
+            "description": "動力系統、電池管理、電氣系統"
+        },
+        "it": {
+            "label": "資訊工程",
+            "description": "數據平台、雲端儀表板、軟體整合"
+        },
+        "marketing": {
+            "label": "市場行銷",
+            "description": "品牌、推廣、活動策劃"
+        },
+        "customer": {
+            "label": "客戶關係",
+            "description": "客戶支援、訂閱管理、回饋與社群建立"
+        }
+    },
+    "products_page": {
+        "header_title": "產品與服務",
+        "header_desc": "我們提供完整的賽車生態系，從硬體到軟體，從購買到維護，旨在為客戶掃除一切障礙，讓他們專注於追求速度與勝利。",
+        "gallery_title": "VR7.5 車輛展示",
+        "service1_title": "整車銷售",
+        "service1_desc1": "我們提供完全組裝和調校好的 VR7.5 賽車，隨時可以上賽道。每輛車都經過嚴格的賽道測試，以確保性能和可靠性的最佳平衡。您的團隊值得擁有一個為勝利而設計的統包解決方案。",
+        "service1_desc2": "購買車輛包含第一年的基礎 AI 數據服務（免費方案），讓您從第一天起就可以開始收集和分析車輛數據。",
+        "service2_title": "零件供應",
+        "service2_desc": "從輕量化碳纖維空力套件、高強度懸吊組件到客製化電池模組，我們提供 VR7.5 的全系列零件。無論是賽季中的維修還是針對特定賽道的升級，我們都能快速響應，確保您的賽車保持在巔峰性能。",
+        "service3_title": "維護與技術支援",
+        "service3_desc": "我們的技術團隊在組裝和賽道邊支援方面擁有豐富經驗。我們提供全面的技術援助，從賽前準備、現場調校到賽後分析。遇到技術挑戰？我們是您最可靠的後盾。",
+        "ai_section_title": "購買 AI 方案",
+        "ai_section_desc": "您的車輛購買包含第一年的免費方案。升級您的方案以解鎖深度、由 AI 驅動的數據洞察，並將您的單圈時間推向極限。",
+        "plan_free_name": "免費",
+        "plan_free_tier": "免費方案",
+        "plan_free_desc": "隨車購買附贈，提供基礎遙測數據，適合初步賽道測試。",
+        "plan_silver_name": "白銀",
+        "plan_silver_tier": "白銀方案",
+        "plan_silver_desc": "解鎖核心 AI 分析能力，為駕駛優化提供可行的建議。",
+        "plan_gold_name": "黃金",
+        "plan_gold_tier": "黃金方案",
+        "plan_gold_desc": "終極數據分析工具，提供視覺化戰術地圖和前瞻性預測模型。",
+        "feature_telemetry": "即時遙測數據",
+        "feature_kpi": "基礎 KPI 指標",
+        "feature_lap_data": "單圈數據記錄",
+        "feature_ai_text": "AI 文字建議",
+        "feature_ai_map": "AI 戰術賽道地圖",
+        "feature_prediction": "進階性能預測模型",
+        "recommended_plan": "推薦",
+        "title": "為勝利而生的 AI 智慧",
+        "subtitle": "我們的分層級 AI 訓練解決方案，能滿足從入門車隊到專業賽車企業的各種需求。",
+        "ai_plan_comparison_title": "AI 方案比較",
+        "plans": {
+            "free": {
+                "name": "入門方案 (Free)",
+                "price": "免費",
+                "price_suffix": "",
+                "description": "適合剛起步的學生車隊，體驗數據驅動的基本優勢。",
+                "features": [
+                    "單次模擬上傳",
+                    "基礎遙測數據儀表板",
+                    "50GB 數據儲存空間",
+                    "社群支援"
+                ],
+                "button_text": "開始使用"
+            },
+            "silver": {
+                "name": "進階方案 (Silver)",
+                "price": "$499",
+                "price_suffix": "/月",
+                "description": "為尋求競爭優勢的團隊設計，解鎖 AI 的潛力。",
+                "features": [
+                    "無限次模擬上傳",
+                    "AI 驅動的駕駛建議",
+                    "進階遙測數據分析",
+                    "500GB 數據儲存空間",
+                    "Email 優先支援"
+                ],
+                "button_text": "選擇進階方案"
+            },
+            "gold": {
+                "name": "專業方案 (Gold)",
+                "price": "聯繫我們",
+                "price_suffix": "",
+                "description": "為頂尖車隊與商業客戶打造的終極解決方案。",
+                "features": [
+                    "所有進階方案功能",
+                    "AI 戰術賽道地圖",
+                    "預測性效能模型",
+                    "無限數據儲存",
+                    "專屬客戶經理"
+                ],
+                "button_text": "洽詢專業方案"
+            }
+        },
+        "feature_analysis_title": "核心功能分析",
+        "features": {
+            "telemetry": {
+                "title": "即時遙測",
+                "description": "監控超過500個數據點，從輪速到電池溫度，一切盡在掌握。"
+            },
+            "ai_feedback": {
+                "title": "AI 駕駛回饋",
+                "description": "我們的 AI 會分析您的駕駛風格，提供關於煞車點、路線選擇和油門控制的具體建議。"
+            },
+            "strategy_map": {
+                "title": "AI 戰術地圖",
+                "description": "不僅是數據，更是策略。AI 會在地圖上標示出理想的煞車與入彎點，將複雜分析轉化為直觀的賽道指令。"
+            }
+        }
+    },
+    "login_page": {
+        "title": "會員登入",
+        "subtitle": "進入您的 AI 智能賽車儀表板",
+        "email_label": "電子郵件地址",
+        "password_label": "密碼",
+        "login_button": "登入",
+        "forgot_password": "忘記密碼？",
+        "no_account": "還沒有帳號嗎？",
+        "sign_up": "註冊"
+    },
+    "dashboard_page": {
+        "title": "AI 遙測數據儀表板",
+        "subtitle": "分析性能、獲取洞見、優化策略。",
+        "select_plan": "選擇您的分析方案：",
+        "free_plan": "免費",
+        "silver_plan": "白銀",
+        "gold_plan": "黃金",
+        "data_visualization_title": "數據視覺化",
+        "raw_data_title": "原始數據流",
+        "ai_suggestions_title": "AI 駕駛建議",
+        "tactical_map_title": "AI 戰術賽道地圖",
+        "upgrade_prompt": "升級至黃金方案以解鎖 AI 戰術地圖並獲得戰略優勢。",
+        "feature_not_available": "目前方案不提供此功能。",
+        "gold_feature_description": "AI 戰術地圖將最佳賽車線、煞車點（紅色圖示）和入彎點（藍色圖示）視覺化於賽道上，提供直觀、即時的戰術指導。",
+        "no_data": "選定期間內無可用數據。",
+        "charts": {
+            "speed_over_time": "速度變化圖",
+            "throttle_vs_brake": "油門與煞車應用圖",
+            "g_force": "G力分佈圖"
+        }
+    },
+    "partners_page": {
+        "title": "我們的合作夥伴與贊助商",
+        "subtitle": "我們創新的驅動力。我們非常感謝贊助商的支持，讓我們的旅程成為可能。",
+        "become_partner": "成為合作夥伴"
+    },
+    "contact_page": {
+        "title": "聯絡我們",
+        "subtitle": "無論您對合作感興趣、對我們的賽車有疑問，還是想加入我們的團隊，我們都樂意聽取您的意見。",
+        "form_name": "您的姓名",
+        "form_email": "您的電子郵件",
+        "form_message": "您的訊息",
+        "form_send": "發送訊息",
+        "info_title": "聯絡資訊",
+        "info_address": "創新市賽車道123號，45678",
+        "info_phone": "+1 (234) 567-890",
+        "info_email": "contact@vr75racing.com"
+    },
+    "not_found_page": {
+        "title": "404",
+        "subtitle": "找不到頁面",
+        "message": "抱歉，您要找的頁面不存在。它可能已被移動、更名或暫時無法使用。",
+        "button": "返回首頁"
+    },
+    "ai_plan_comparison": {
+        "feature_telemetry": "基礎遙測儀表板",
+        "feature_ai_driving_coach": "AI 駕駛教練",
+        "feature_prediction": "進階效能預測模型",
+        "recommended_plan": "推薦方案"
+    }
+} 

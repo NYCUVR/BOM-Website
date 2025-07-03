@@ -1,0 +1,169 @@
+{
+    "title": "VR7.5 Technical Specifications",
+    "subtitle": "Explore the engineering details and design innovations of our latest car.",
+    "weightSection": {
+      "title": "Key Weight Metrics",
+      "stats": {
+        "totalWeight": {
+          "name": "Total Ready-to-Race Weight",
+          "unit": "kg",
+          "description": "The total weight of the vehicle ready for the track, including all fluids."
+        },
+        "chassisAeroWeight": {
+          "name": "Chassis & Aero Weight",
+          "unit": "kg",
+          "description": "The weight of the structural core and aerodynamic package, key to lightweighting."
+        },
+        "powerSuspensionWeight": {
+          "name": "Powertrain & Suspension Weight",
+          "unit": "kg",
+          "description": "Includes motor, battery, and suspension, directly impacting performance and handling."
+        }
+      }
+    },
+    "highlightsSection": {
+      "title": "Vehicle Design Highlights",
+      "mobileHint": "Tap on hotspots to see details",
+      "desktopHint": "Hover over hotspots to see details",
+      "items": {
+        "1": {
+          "title": "Torsional Rigidity Increase",
+          "description": "Chassis torsional rigidity increased by 37.8%, significantly enhancing cornering stability and response speed."
+        },
+        "2": {
+          "title": "Shortened Wheelbase",
+          "description": "Wheelbase shortened to 1570mm, improving the vehicle's agility and nimbleness in tight corners."
+        },
+        "3": {
+          "title": "Monolithic Nose Cone",
+          "description": "Compared to last year's two-piece design, the monolithic nose cone provides greater downforce and stability."
+        },
+        "4": {
+          "title": "Front Pull-Rod Suspension",
+          "description": "Adopting a front pull-rod design effectively reduces the space required for the suspension system, optimizing internal layout."
+        },
+        "5": {
+          "title": "Widened Chassis",
+          "description": "The middle section of the chassis is widened to place high-voltage components lower, effectively lowering the vehicle's center of gravity."
+        },
+        "6": {
+          "title": "Lightweight Motor",
+          "description": "Compared to last year, the total weight of the motor and differential has been reduced by over 50 kg, significantly improving acceleration performance."
+        }
+      }
+    },
+    "techDetailsSection": {
+      "title": "Technical Deep Dive",
+      "categories": {
+        "suspension": {
+          "title": "Suspension & Tires",
+          "content": {
+            "0": { "text": "Design Goals" },
+            "1": {
+              "left": {
+                "0": { "text": "Reduce Unsprung Mass" },
+                "1": { "text": "Unsprung mass significantly increases the yaw inertia of steering and lengthens the reaction time to road bumps." },
+                "2": { "text": "Goal: Less than 10 kg per wheel." },
+                "3": { "text": "Ensure Structural Strength" },
+                "4": { "text": "Our designs are validated through Finite Element Analysis (FEA), including Von Mises stress, displacement, fatigue, and frequency analysis." },
+                "5": { "text": "Goal: Safety factor > 1.6 for all components." },
+                "6": { "text": "Enhance Adaptability" },
+                "7": { "text": "To achieve optimal performance in any situation, both the car and the driver must be able to adapt to different conditions." },
+                "8": { "text": "Goal: Adjustable geometry, low budget, and interchangeability." }
+              },
+              "right": {
+                "0": { "alt": "Front suspension system" },
+                "1": { "alt": "Rear suspension system" }
+              }
+            }
+          }
+        },
+        "aero": {
+          "title": "Aerodynamics",
+          "content": {
+            "0": { "text": "Design Goals" },
+            "1": {
+              "items": {
+                "0": { "key": "Increase Downforce", "value": "Downforce helps improve stability during cornering but also creates adverse drag. The goal is to achieve 350N of downforce at 15m/s with no more than 120N of drag." },
+                "1": { "key": "Reduce Weight", "value": "Weight reduction is a primary goal this year. It not only helps the vehicle accelerate but also effectively reduces the moment of inertia. Target total weight < 25 kg, using carbon fiber and lightweight resin." }
+              }
+            },
+            "2": { "text": "Aerodynamic Package Features (Airfoil: S1223)" },
+            "3": {
+              "left": {
+                "0": { "items": [
+                  "Use a Gurney flap to increase rear wing downforce.",
+                  "Lower the nose cone tip to reduce lift generation.",
+                  "Use bent metal plates as brackets to increase strength against stresses in different directions while reducing weight and cost.",
+                  "Use carbon fiber sandwich panels for the internal structure of the front wing."
+                ]}
+              },
+              "right": { "0": { "alt": "Full vehicle view of the aero package" } }
+            },
+            "5": { "text": "Computational Fluid Dynamics (CFD) Simulation" },
+            "6": { "text": "We use ANSYS Fluent for simulations. Boundary conditions: inlet velocity 15m/s, four wheels rotating, ground moving at 15m/s in the negative X-axis." },
+            "7": {
+              "items": {
+                "0": { "key": "Cl (Lift Coefficient)" },
+                "1": { "key": "Cd (Drag Coefficient)" },
+                "2": { "key": "Downforce" },
+                "3": { "key": "Drag force" },
+                "4": { "key": "Cl/Cd (Lift-to-Drag Ratio)" }
+              }
+            }
+          }
+        },
+        "power": {
+          "title": "Electrical System",
+          "content": {
+            "0": { "text": "Power Conversion & Distribution" },
+            "1": {
+              "left": { "0": { "items": [
+                "Controller: Cascadia (Rinehart) PM100DZ is used as the motor controller for its wide voltage range and compatibility with resolvers and encoders.",
+                "High-Voltage Disconnect (HVD): Can be operated from both sides of the vehicle, increasing safety in case of an incident requiring immediate power cutoff.",
+                "Integrated Mounting: The integrated mounting of the motor and differential enhances mechanical strength and stability.",
+                "High-Voltage Line Optimization: The output of the accumulator container is placed near the junction box to shorten high-voltage cables.",
+                "Convenient Maintenance: The accumulator container is detached from the bottom of the chassis, making assembly and disassembly more straightforward."
+              ]}},
+              "right": { "0": { "alt": "Electrical system conversion diagram" } }
+            }
+          }
+        },
+        "motor": {
+          "title": "Motor & Drivetrain",
+          "content": {
+            "0": { "text": "System Specifications" },
+            "1": {
+              "left": {
+                "0": { "text": "Motor (EMRAX 228 MV)" },
+                "1": { "items": ["Peak Torque: 230Nm", "Peak Speed: 5400 RPM", "Total Weight: 12.9 kg"] },
+                "2": { "text": "Drivetrain System" },
+                "3": { "items": ["Transmission: Uses sprockets and chains to transmit power.", "Torque Amplification: Enhances torque through an appropriate gear ratio for better acceleration.", "High Efficiency & Longevity: Higher transmission efficiency and longer service life.", "Final Gear Ratio: 3", "Final Torque: 720Nm"] },
+                "4": { "text": "Design Details" },
+                "5": { "items": ["Bushings are placed at the motor mounting points to prevent damage from vibrations.", "Nuts are used to adjust the position of the differential for easy adjustment of chain tension."] }
+              },
+              "right": { "0": { "alt": "Motor and drivetrain system" } }
+            }
+          }
+        },
+        "safety": {
+          "title": "Safety Systems",
+          "content": {
+            "0": { "text": "Design Goal: Ensure driver safety and allow for rapid power cutoff." },
+            "1": {
+              "left": { "0": { "items": [
+                "BMS (Battery Management System): Monitors cell voltage and temperature, and opens the shutdown circuit if abnormal conditions are detected.",
+                "Main Switch: Can cut off all power to the low-voltage system ground or the tractive system.",
+                "Inertia Switch: A Sensata resettable crash sensor that opens the shutdown circuit and cuts off power upon vehicle impact.",
+                "Emergency Stop Buttons: Located on both sides of the main roll hoop and on the dashboard, can open the shutdown circuit and cut off all power.",
+                "BOTS (Brake Pedal Over-Travel Switch): Opens the shutdown circuit if the brake pedal travel exceeds its normal range.",
+                "BSPD (Brake System Plausibility Device): Checks for simultaneous braking and high power output."
+              ]}},
+              "right": { "0": { "alt": "Safety system diagram" } }
+            }
+          }
+        }
+      }
+    }
+} 
+ 
