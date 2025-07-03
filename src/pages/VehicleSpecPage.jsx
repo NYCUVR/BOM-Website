@@ -208,19 +208,32 @@ const HighlightsSection = () => {
             ))}
 
             <AnimatePresence>
-                {activeHighlight && (
-                    <motion.div
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center pointer-events-none p-4"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                    >
-                        <div className="bg-black/80 backdrop-blur-sm p-6 rounded-lg shadow-2xl max-w-sm text-center border border-brand-pink/50">
-                            <h3 className="text-2xl font-bold text-brand-pink mb-2">{activeHighlight.title}</h3>
-                            <p className="text-white">{activeHighlight.description}</p>
-                        </div>
-                    </motion.div>
-                )}
+                {activeHighlight && (() => {
+                    const topPercentage = parseInt(activeHighlight.position.top, 10);
+                    const transformStyle = topPercentage > 50 
+                        ? 'translate(-50%, -120%)' // Appear above the dot
+                        : 'translate(-50%, 20%)';   // Appear below the dot
+
+                    return (
+                        <motion.div
+                            className="absolute pointer-events-none z-10"
+                            style={{
+                                top: activeHighlight.position.top,
+                                left: activeHighlight.position.left,
+                                transform: transformStyle,
+                            }}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <div className="bg-black/80 backdrop-blur-sm p-6 rounded-lg shadow-2xl max-w-xs text-center border border-brand-pink/50">
+                                <h3 className="text-xl font-bold text-brand-pink mb-2">{activeHighlight.title}</h3>
+                                <p className="text-white text-sm">{activeHighlight.description}</p>
+                            </div>
+                        </motion.div>
+                    )
+                })()}
             </AnimatePresence>
         </div>
 
