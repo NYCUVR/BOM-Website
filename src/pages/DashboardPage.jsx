@@ -28,6 +28,12 @@ const DashboardPage = () => {
         suzuka_east: { name: t('dashboard.tracks.suzuka_east') },
     }), [t]);
 
+    const TRACK_PROFILES = useMemo(() => ({
+        test_base: { baseSpeed: 120, speedVariance: 50, throttleAggression: 1, brakeIntensity: 0.8 },
+        lihpao_g2: { baseSpeed: 105, speedVariance: 45, throttleAggression: 0.9, brakeIntensity: 1 },
+        suzuka_east: { baseSpeed: 135, speedVariance: 60, throttleAggression: 1.1, brakeIntensity: 0.9 },
+    }), []);
+
     const [trackKey, setTrackKey] = useState(Object.keys(TRACKS)[0]);
 
     const trackGenerators = useMemo(() => ({
@@ -60,21 +66,22 @@ const DashboardPage = () => {
         let data = [];
         const points = pointsConfig[currentTrackKey];
         const generator = trackGenerators[currentTrackKey];
+        const profile = TRACK_PROFILES[currentTrackKey];
 
-        const brakingIndices = [Math.floor(points * 0.2), Math.floor(points * 0.7)];
-        const apexIndices = [Math.floor(points * 0.3), Math.floor(points * 0.8)];
+        const brakingIndices = [Math.floor(points * 0.2), Math.floor(points * 0.7), Math.floor(points * 0.45)];
+        const apexIndices = [Math.floor(points * 0.3), Math.floor(points * 0.8), Math.floor(points * 0.55)];
 
         for (let i = 0; i < points; i++) {
             const { x, y, angle } = generator(i, points);
-            const userSpeed = 120 + 50 * Math.sin(angle * 2 + Math.PI / 2) + faker.number.float({ min: -5, max: 5 });
+            const userSpeed = profile.baseSpeed + profile.speedVariance * Math.sin(angle * 2 + Math.PI / 2) + faker.number.float({ min: -5, max: 5 });
             const idealSpeed = userSpeed + faker.number.float({ min: 3, max: 10 });
 
             data.push({
                 distance: (i / points) * 3740,
                 userSpeed,
                 idealSpeed,
-                throttle: faker.number.float({ min: 0.2, max: 1 }),
-                brake: brakingIndices.includes(i) ? faker.number.float({ min: 0.8, max: 1 }) : faker.number.float({ min: 0, max: 0.1 }),
+                throttle: faker.number.float({ min: 0.2, max: 1 }) * profile.throttleAggression,
+                brake: brakingIndices.includes(i) ? faker.number.float({ min: 0.8, max: 1 }) * profile.brakeIntensity : faker.number.float({ min: 0, max: 0.1 }),
                 gForce: 1.5 + Math.abs(Math.sin(angle * 2)),
                 x, y,
                 isBrakingPoint: brakingIndices.includes(i),
@@ -88,12 +95,40 @@ const DashboardPage = () => {
     const brakingPoints = useMemo(() => sessionData.filter(d => d.isBrakingPoint), [sessionData]);
     const apexPoints = useMemo(() => sessionData.filter(d => d.isApex), [sessionData]);
 
-    const kpis = useMemo(() => ({
-        best_lap: '1:30.125',
-        top_speed: '165 km/h',
-        max_g_force: '2.3 G',
-        delta_to_ideal: <span className="text-red-400">-0.850s</span>,
-    }), []);
+    const kpis = useMemo(() => {
+        if (!sessionData || sessionData.length === 0) {
+            return {
+                best_lap: 'N/A',
+                top_speed: 'N/A',
+                max_g_force: 'N/A',
+                delta_to_ideal: 'N/A',
+            };
+        }
+
+        const topSpeed = Math.max(...sessionData.map(d => d.userSpeed));
+        const maxGForce = Math.max(...sessionData.map(d => d.gForce));
+
+        // Generate a plausible lap time based on track
+        const lapTimeBases = { test_base: 90, lihpao_g2: 105, suzuka_east: 85 };
+        const baseTime = lapTimeBases[trackKey] || 95;
+        const lapTimeInSeconds = baseTime + faker.number.float({ min: -0.5, max: 0.5 });
+        const minutes = Math.floor(lapTimeInSeconds / 60);
+        const seconds = Math.floor(lapTimeInSeconds % 60);
+        const milliseconds = Math.floor((lapTimeInSeconds * 1000) % 1000);
+        const formattedLapTime = `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+        
+        // Generate a plausible delta
+        const deltaBases = { test_base: -0.8, lihpao_g2: -1.2, suzuka_east: -0.6 };
+        const baseDelta = deltaBases[trackKey] || -0.9;
+        const delta = baseDelta + faker.number.float({min: -0.2, max: 0.2});
+
+        return {
+            best_lap: formattedLapTime,
+            top_speed: `${topSpeed.toFixed(0)} km/h`,
+            max_g_force: `${maxGForce.toFixed(1)} G`,
+            delta_to_ideal: <span className={delta > 0 ? "text-green-400" : "text-red-400"}>{delta.toFixed(3)}s</span>,
+        }
+    }, [sessionData, trackKey, t]);
 
     const analysis = useMemo(() => ({
         silver: t('dashboard.ai_analysis.silver', { returnObjects: true }) || [],
@@ -191,7 +226,7 @@ const DashboardPage = () => {
                         <UserCircleIcon className="h-10 w-10 text-gray-500"/>
                     </div>
                 </header>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                             <KPICard title={t('dashboard.kpi_best_lap')} value={kpis.best_lap} icon={TrophyIcon} />
                             <KPICard title={t('dashboard.kpi_top_speed')} value={kpis.top_speed} icon={ArrowTrendingUpIcon} />
                             <KPICard title={t('dashboard.kpi_max_g')} value={kpis.max_g_force} icon={ChartBarIcon} />
