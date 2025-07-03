@@ -9,6 +9,9 @@ import VehicleSpecPage from './pages/VehicleSpecPage';
 import PartnersPage from './pages/PartnersPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
+import DashboardPage from './pages/DashboardPage';
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
 import { Home } from 'lucide-react';
 // We will import other pages here as we create them
 
@@ -26,6 +29,15 @@ function App() {
               <Route path="/partners" element={<PartnersPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/car" element={<CarPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </AnimatePresence>

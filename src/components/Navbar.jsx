@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useAuth } from '../context/AuthContext';
 
 const navLinks = [
   { name: '首頁', href: '/' },
@@ -13,6 +14,13 @@ const navLinks = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    auth.logout(() => navigate('/'));
+    setIsMenuOpen(false);
+  }
 
   const mobileLinkClass = "block text-3xl font-bold text-center text-white py-4 hover:bg-brand-pink transition-colors duration-300";
   const desktopLinkClass = ({ isActive }) =>
@@ -47,13 +55,30 @@ const Navbar = () => {
                   {link.name}
                 </NavLink>
               ))}
-              <Link
-                to="/contact"
-                className="px-4 py-2 bg-brand-pink text-white rounded-md hover:bg-brand-gold transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                聯絡我們
-              </Link>
+              {auth.user ? (
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="px-4 py-2 bg-brand-pink text-white rounded-md hover:bg-brand-gold transition-colors duration-300 text-sm font-medium"
+                  >
+                    儀表板
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-300 text-sm font-medium"
+                  >
+                    登出
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="px-4 py-2 bg-brand-pink text-white rounded-md hover:bg-brand-gold transition-colors duration-300 text-sm font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  登入
+                </Link>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -92,13 +117,31 @@ const Navbar = () => {
                   {link.name}
                 </NavLink>
               ))}
-              <Link
-                to="/contact"
-                className={`${mobileLinkClass} mt-8 bg-brand-gold rounded-lg w-3/4`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                聯絡我們
-              </Link>
+              {auth.user ? (
+                <>
+                   <Link
+                      to="/dashboard"
+                      className={`${mobileLinkClass} mt-8 bg-brand-pink rounded-lg w-3/4`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      儀表板
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className={`${mobileLinkClass} mt-4 bg-gray-600 rounded-lg w-3/4`}
+                    >
+                      登出
+                    </button>
+                </>
+              ) : (
+                 <Link
+                    to="/login"
+                    className={`${mobileLinkClass} mt-8 bg-brand-pink rounded-lg w-3/4`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    登入
+                  </Link>
+              )}
             </div>
           </motion.div>
         )}

@@ -66,7 +66,7 @@ const PartnersPage = () => {
             icon={CogIcon}
             title="零件供應商"
             description="每一台高性能賽車都由數千個精密零件構成。我們與世界級的零件供應商合作，確保從最小的螺絲到最核心的動力單元，都擁有最高的品質與可靠性。他們不僅是供應商，更是我們解決技術挑戰、實現極致性能的重要夥伴。"
-            imgSrc="https://images.unsplash.com/photo-1581092334633-2a0478da2b33?q=80&w=1470&auto=format&fit=crop"
+            imgSrc="/sam-loyd-qy27JnsH9sU-unsplash.jpg"
           />
         </div>
 

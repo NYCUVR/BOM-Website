@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Scroll, ScrollControls, useScroll } from '@react-three/drei';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,6 +11,41 @@ import { lerp } from 'three/src/math/MathUtils';
 import FeatureSection from '../components/FeatureSection';
 import CtaSection from '../components/CtaSection';
 import { CarModel } from '../components/CarModel';
+import PlaceholderModel from '../components/PlaceholderModel';
+
+// This component checks for the model and renders it, or a fallback.
+function ModelManager() {
+  const [modelExists, setModelExists] = useState(null);
+
+  useEffect(() => {
+    // Check if the model file exists by sending a HEAD request.
+    fetch('/vr7_5_model.glb', { method: 'HEAD' })
+      .then(res => {
+        // A 404 error will result in res.ok being false.
+        setModelExists(res.ok);
+      })
+      .catch(() => {
+        // A network error or other issue.
+        setModelExists(false);
+      });
+  }, []);
+
+  // While checking, we can render nothing.
+  if (modelExists === null) {
+    return null;
+  }
+
+  return modelExists ? (
+    // If the model exists, try to load it with Suspense.
+    // Suspense will catch the loading state.
+    <Suspense fallback={<PlaceholderModel scale={1.8} position={[0, -1, 0]} />}>
+      <CarModel scale={0.8} position={[0, -1.5, 0]} rotation={[0, -Math.PI / 4, 0]} />
+    </Suspense>
+  ) : (
+    // If the check fails, render the placeholder immediately.
+    <PlaceholderModel scale={1.8} position={[0, -1, 0]} />
+  );
+}
 
 // Responsive Camera
 function ResponsiveCamera() {
@@ -69,7 +104,7 @@ function Experience() {
     <>
       {/* 3D Model */}
       <group ref={modelRef}>
-        <CarModel scale={0.8} position={[0, -1.5, 0]} rotation={[0, -Math.PI / 4, 0]}/>
+        <ModelManager />
       </group>
 
       {/* HTML Content overlay */}
