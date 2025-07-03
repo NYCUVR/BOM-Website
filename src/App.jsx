@@ -12,7 +12,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
-import { Home } from 'lucide-react';
+import ScrollToTop from './components/ScrollToTop';
 // We will import other pages here as we create them
 
 function AppRoutes() {
@@ -46,6 +46,7 @@ function App() {
   return (
     <Router basename="/">
       <MotionConfig transition={{ duration: 0.5, ease: 'easeInOut' }}>
+        <ScrollToTop />
         <MainLayout>
           <AppRoutes />
         </MainLayout>
