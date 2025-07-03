@@ -243,12 +243,20 @@
         }
     },
     "partners_page": {
-        "title": "Our Partners & Sponsors",
-        "subtitle": "The driving force behind our innovation. We are immensely grateful for the support of our sponsors who make our journey possible.",
-        "become_partner": "Become a Partner"
+        "header_title": "Our Partners",
+        "header_subtitle": "Our achievements are built on close collaboration with leaders in various fields. From technological innovation to resource sharing, our partners are the key force driving us forward.",
+        "category1_title": "Racing Schools",
+        "category1_desc": "We collaborate with top racing schools and academic institutions for knowledge exchange and talent development. This not only brings cutting-edge theoretical knowledge and driving skills to our team but also provides a valuable platform for students to put theory into practice, jointly cultivating the next generation of engineering and racing elites.",
+        "category2_title": "Sustainability-focused Enterprises",
+        "category2_desc": "While pursuing speed, we firmly believe in the importance of sustainable development. We partner with companies dedicated to the circular economy and green technology to explore the use of innovative eco-friendly materials, develop efficient energy recovery systems, and transform our race car into a platform for showcasing sustainable technologies, jointly promoting a cleaner future.",
+        "category3_title": "Component Suppliers",
+        "category3_desc": "Every high-performance race car is composed of thousands of precision parts. We work with world-class component suppliers to ensure the highest quality and reliability, from the smallest screw to the core power unit. They are not just suppliers, but also crucial partners in solving technical challenges and achieving ultimate performance.",
+        "cta_title": "Become the Force That Drives Us",
+        "cta_subtitle": "Your support will be directly invested in the R&D and manufacturing of the next-generation race car and help us cultivate future engineers. We offer a variety of partnership plans and look forward to you joining us on our path to victory.",
+        "cta_button": "Explore Sponsorship"
     },
     "contact_page": {
-        "title": "Get in Touch",
+        "title": "Contact Us",
         "subtitle": "Whether you're interested in a partnership, have a question about our car, or want to join our team, we'd love to hear from you.",
         "form_name": "Your Name",
         "form_email": "Your Email",

@@ -22,13 +22,13 @@ const centerTextPlugin = {
     ctx.fillStyle = options.color || '#FFFFFF';
 
     // Main text (total number)
-    ctx.fillText(options.text, centerX, centerY - (options.subtext ? 8 : 0));
+    ctx.fillText(options.text, centerX, centerY - (options.subtext ? 12 : 0));
     
     // Subtext
     if (options.subtext) {
       ctx.font = `${options.subtextFontSize || '12px'} ${options.fontFamily || 'sans-serif'}`;
       ctx.fillStyle = options.subtextColor || '#A0AEC0'; // gray-400
-      ctx.fillText(options.subtext, centerX, centerY + 12);
+      ctx.fillText(options.subtext, centerX, centerY + 18);
     }
 
     ctx.restore();
