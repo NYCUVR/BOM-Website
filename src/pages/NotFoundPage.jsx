@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 const NotFoundPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-gray-900 text-white flex items-center justify-center min-h-screen">
       <motion.div
@@ -17,10 +20,10 @@ const NotFoundPage = () => {
           404
         </h1>
         <h2 className="text-2xl md:text-3xl font-bold text-gray-300 mt-4">
-          頁面不存在
+          {t('not_found_page.title')}
         </h2>
         <p className="mt-4 text-gray-400">
-          抱歉，我們找不到您要尋找的頁面。它可能已被移動、刪除，或者您輸入了錯誤的網址。
+          {t('not_found_page.subtitle')}
         </p>
         <Link to="/">
           <motion.button
@@ -28,7 +31,7 @@ const NotFoundPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            返回首頁
+            {t('not_found_page.button_text')}
           </motion.button>
         </Link>
       </motion.div>
