@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { MotionConfig, AnimatePresence } from 'framer-motion';
 import MainLayout from './components/MainLayout';
 import Homepage from './pages/Homepage';
@@ -15,32 +15,39 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { Home } from 'lucide-react';
 // We will import other pages here as we create them
 
+function AppRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Homepage />}/>
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/specs" element={<VehicleSpecPage />} />
+        <Route path="/partners" element={<PartnersPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/car" element={<CarPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 function App() {
   return (
     <Router>
       <MotionConfig transition={{ duration: 0.5, ease: 'easeInOut' }}>
         <MainLayout>
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<Homepage />}/>
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/specs" element={<VehicleSpecPage />} />
-              <Route path="/partners" element={<PartnersPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/car" element={<CarPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </AnimatePresence>
+          <AppRoutes />
         </MainLayout>
       </MotionConfig>
     </Router>
