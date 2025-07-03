@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
-import { CogIcon, ChartBarIcon, WrenchScrewdriverIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { CogIcon, ChartBarIcon, WrenchScrewdriverIcon, XMarkIcon, ChevronDownIcon, TruckIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 
 const galleryImages = [
   'https://placehold.co/800x600/111827/ffffff.png?text=VR7.5+車頭視角',
@@ -50,6 +50,12 @@ const mockDataSets = {
         battery_efficiency: '92%',
     },
     lapData: generateLapData(5),
+    suggestions: [
+        '在 T3 彎道延後剎車點 5 公尺，預計可提升 0.15 秒。',
+        '於 1500m 處的連續彎，路線可更貼近彎心，以提升出彎速度。',
+        '電池溫度在後半段偏高，建議調整動能回收強度至等級 2。',
+        '偵測到輕微轉向不足，建議前輪胎壓降低 0.5 psi。',
+    ]
   },
   'lihpao_driver_b': {
     name: "麗寶國際賽車場 G2 - 車手 B",
@@ -60,6 +66,12 @@ const mockDataSets = {
         battery_efficiency: '94%',
     },
     lapData: generateLapData(5),
+    suggestions: [
+        '在 T1 大直線底剎車點過於保守，可嘗試延後 10 公尺以尋找輪胎鎖死臨界點。',
+        '髮夾彎 (T11) 出彎時油門施加過早，導致後輪輕微打滑，損失了出彎速度。',
+        '偵測到高速彎 (T5-T7) 中車輛不穩定，建議增加後下壓力或調整懸吊硬度。',
+        '動能回收設定為等級 1，過於保守。建議調高至等級 3 以增加能源回收，同時輔助減速。',
+    ]
   }
 };
 
@@ -198,10 +210,9 @@ const DashboardModal = ({ onClose }) => {
                     <div className="w-full lg:w-1/4 bg-gray-800/50 p-4 rounded-lg overflow-y-auto">
                         <h3 className="text-lg font-bold text-brand-pink mb-4">AI 駕駛建議 (單圈 1)</h3>
                         <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="p-2 bg-gray-700/50 rounded-md">在 T3 彎道延後剎車點 5 公尺，預計可提升 0.15 秒。</li>
-                           <li className="p-2 bg-gray-700/50 rounded-md">於 1500m 處的連續彎，路線可更貼近彎心，以提升出彎速度。</li>
-                           <li className="p-2 bg-gray-700/50 rounded-md">電池溫度在後半段偏高，建議調整動能回收強度至等級 2。</li>
-                           <li className="p-2 bg-gray-700/50 rounded-md">偵測到輕微轉向不足，建議前輪胎壓降低 0.5 psi。</li>
+                           {activeData.suggestions.map((suggestion, index) => (
+                               <li key={index} className="p-2 bg-gray-700/50 rounded-md">{suggestion}</li>
+                           ))}
                         </ul>
                     </div>
                 </main>
@@ -250,21 +261,45 @@ const ProductsPage = () => {
         
         <ServiceSection 
           icon={ChartBarIcon} 
-          title="賽車數據分析服務" 
+          title="數據遙測與 AI 洞察"
           visual={<DataAnalysisVisual />}
           reverse={true}
         >
-            <p>這不僅僅是數據紀錄，更是勝利的藍圖。透過安裝在車上的多種感測器，我們能收集包括輪速、G值、電池效能、馬達溫度在內的上百種數據。</p>
-            <p>我們的雲端平台利用機器學習模型進行深度分析，提供從駕駛行為到車輛設定的全面優化建議，將每一毫秒的潛力都挖掘出來。點擊右側按鈕，體驗我們的模擬數據儀表板。</p>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-bold text-xl text-brand-gold mb-2">標準方案 (隨車附送)</h4>
+              <p>每輛車皆配備我們的即時數據遙測系統。您可以存取車速、電池電壓、G力等多項核心數據，為您的基礎調校提供客觀依據。</p>
+            </div>
+            <div className="border-t border-gray-700 my-4"></div>
+            <div>
+              <h4 className="font-bold text-xl text-brand-gold mb-2">進階訂閱 (AI+ 驅動)</h4>
+              <p>解鎖我們雲端 AI 平台的全部潛力。除了基礎數據，您將獲得由 AI 生成的深度分析報告，包含：</p>
+              <ul className="list-disc list-inside mt-2 space-y-1 text-gray-400">
+                <li>個人化駕駛風格分析與改進建議</li>
+                <li>賽道路線模擬與單圈時間預測</li>
+                <li>車輛設定的個性化調校方案</li>
+              </ul>
+            </div>
+          </div>
         </ServiceSection>
 
-        <ServiceSection 
-          icon={WrenchScrewdriverIcon} 
-          title="車輛模組維護方案"
-          visual={<VisualPlaceholder src="https://placehold.co/800x600/374151/c9d1d9.png?text=車輛模組化分解圖" alt="Exploded View of Car Modules" />}
+        <ServiceSection
+            icon={TruckIcon}
+            title="賽道日物流與支援"
+            visual={<VisualPlaceholder src="https://placehold.co/800x600/1f2937/ffffff.png?text=賽道運輸" alt="Track Day Logistics" />}
         >
-            <p>賽車是精密的儀器，需要專業的照護。我們提供靈活的模組化維護合約，讓您無需擔憂後勤的繁瑣。</p>
-            <p>無論是賽季前的全面檢測、電池組的健康度評估，還是動力單元或懸吊系統的預防性更換，我們確保您的賽車隨時保持在巔峰狀態，最大化您的賽道時間與投資回報。</p>
+            <p>專注於您的比賽，將繁瑣的物流交給我們。我們提供高性價比的賽車運輸服務，確保您的愛車能準時、安全地抵達全台各大賽車場。</p>
+            <p>此服務包含車輛的往返運輸以及基本的場邊技術諮詢，讓您能以最佳狀態迎接每一個賽道日。</p>
+        </ServiceSection>
+
+        <ServiceSection
+            icon={ShieldCheckIcon}
+            title="全年保固與維護"
+            visual={<VisualPlaceholder src="https://placehold.co/800x600/1f2937/ffffff.png?text=保固服務" alt="Warranty and Maintenance" />}
+            reverse={true}
+        >
+            <p>我們對我們的工藝充滿信心。因此，每一輛 VR7.5 都提供首年免費的全方位保固服務。</p>
+            <p>保固範圍涵蓋車體結構、動力總成及電池系統 (不含賽道上的意外損耗)。我們承諾為您的投資提供最堅實的後盾，讓您無後顧之憂地追求極致性能。</p>
         </ServiceSection>
 
       </div>

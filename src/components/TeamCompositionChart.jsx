@@ -9,7 +9,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = {
+export const chartData = {
   labels: [
     '再製造工程師',
     '市場行銷',
@@ -65,10 +65,10 @@ const options = {
 const TeamCompositionChart = () => {
   return (
     <div className="relative w-full max-w-md mx-auto h-80 md:h-96">
-      <Doughnut data={data} options={options} />
+      <Doughnut data={chartData} options={options} />
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="text-center">
-            <p className="text-5xl font-bold text-white">55</p>
+            <p className="text-5xl font-bold text-white">46</p>
             <p className="text-lg text-gray-400">總成員</p>
         </div>
       </div>

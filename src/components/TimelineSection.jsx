@@ -13,9 +13,8 @@ const timelineData = [
         year: '2021',
         title: 'VR5 – 內燃機車 (IC)',
         description: [
-            '社團重整重新出發',
-            '參加 FST 台灣學生方程式賽車聯賽。',
-            '成立行政管理團隊，負責尋求贊助和管理對外關係。'
+            '成立行政管理團隊。',
+            '推出第一台方程式賽車。'
         ],
         icon: WrenchScrewdriverIcon,
     },
