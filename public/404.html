@@ -1,11 +1,45 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/fav.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NVR Racing Offical</title>
+    <meta charset="utf-8" />
+    <title>BOM Redirect</title>
+    <script type="text/javascript">
+      // Don't execute the script if the page is rendered in an iframe.
+      // This happens with some error pages in development.
+      if (window.top !== window.self) {
+        // We are in an iframe.
+        // For example, the Vite error overlay.
+      } else {
+        var pathSegmentsToKeep = 0;
+        
+        //
+        // If you're deploying to a custom domain, you should change this to 0.
+        // If you're deploying to a GitHub Pages sub-path, it should be 1.
+        //
+        // For example, if you're deploying to `https://<user>.github.io/<repo>`,
+        // the value should be 1.
+        //
+        // If you're deploying to `https://<custom-domain>`, the value should be 0.
+        //
+        pathSegmentsToKeep = 0;
+
+        var l = window.location;
+        l.replace(
+          l.protocol +
+            "//" +
+            l.hostname +
+            (l.port ? ":" + l.port : "") +
+            l.pathname
+              .split("/")
+              .slice(0, 1 + pathSegmentsToKeep)
+              .join("/") +
+            "/?/" +
+            l.pathname.slice(1).split("/").slice(pathSegmentsToKeep).join("/").replace(/&/g, "~and~") +
+            (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+            l.hash
+        );
+      }
+    </script>
   </head>
-  <body>
-    <div id="root"></div>
- 
+  <body></body>
+</html> 
