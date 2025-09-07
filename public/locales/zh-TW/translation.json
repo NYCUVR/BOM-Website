@@ -6,6 +6,7 @@
         "specs": "車輛規格",
         "products": "產品與服務",
         "partners": "合作夥伴",
+        "sponsors": "贊助商",
         "contact": "聯絡我們",
         "login": "登入",
         "dashboard": "儀表板",
@@ -347,6 +348,23 @@
                 "AI 教練：你的平均 G 值低於最佳範圍，顯示輪胎抓地力未被充分利用。更大膽地相信你的車！"
             ]
         }
+    },
+    "sponsors_page": {
+        "title": "我們的贊助商",
+        "subtitle": "我們感謝所有贊助商的支持，正是他們讓我們的賽車夢想成為可能。每一位贊助商都在我們追求卓越的旅程中扮演著關鍵角色。",
+        "gold_sponsors": "金級贊助商",
+        "gold_description": "我們的首要合作夥伴，提供卓越的支持和資源。",
+        "silver_sponsors": "銀級贊助商",
+        "silver_description": "為我們的成功做出重要貢獻的寶貴合作夥伴。",
+        "bronze_sponsors": "銅級贊助商",
+        "bronze_description": "幫助我們實現目標的支持性合作夥伴。",
+        "gold_level": "金級",
+        "silver_level": "銀級",
+        "bronze_level": "銅級",
+        "visit_website": "造訪網站",
+        "cta_title": "成為我們的贊助商",
+        "cta_subtitle": "加入我們的旅程，成為賽車運動未來的一部分。您的支持將幫助我們突破賽車技術的界限。",
+        "cta_button": "聯絡我們"
     },
     "not_found_page": {
         "title": "404 - 找不到頁面",

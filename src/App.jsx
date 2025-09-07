@@ -6,6 +6,7 @@ import AboutPage from './pages/AboutPage';
 import ProductsPage from './pages/ProductsPage';
 import VehicleSpecPage from './pages/VehicleSpecPage';
 import PartnersPage from './pages/PartnersPage';
+import SponsorsPage from './pages/SponsorsPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import DashboardPage from './pages/DashboardPage';
@@ -24,6 +25,7 @@ function AppRoutes() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/specs" element={<VehicleSpecPage />} />
         <Route path="/partners" element={<PartnersPage />} />
+        <Route path="/sponsors" element={<SponsorsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route 
