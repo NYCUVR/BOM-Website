@@ -1,61 +1,49 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import { useTranslation } from 'react-i18next';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
-const Feature = ({ name, included }) => (
-  <li className="flex items-center space-x-3">
-    {included ? (
-      <CheckCircleIcon className="flex-shrink-0 w-5 h-5 text-green-500" />
-    ) : (
-      <XCircleIcon className="flex-shrink-0 w-5 h-5 text-gray-500" />
-    )}
-    <span className={included ? 'text-white' : 'text-gray-400'}>{name}</span>
+const Feature = ({ name }) => (
+  <li className="flex items-start space-x-3">
+    <CheckCircleIcon className="flex-shrink-0 w-5 h-5 text-green-500 mt-0.5" />
+    <span className="text-white">{name}</span>
   </li>
 );
 
 const AiPlanComparison = () => {
-  const { t } = useTranslation();
   const plans = [
     {
-      name: t('products_page.plan_free_name'),
-      tier: t('products_page.plan_free_tier'),
-      description: t('products_page.plan_free_desc'),
+      name: 'Basic',
+      tier: 'first year for free',
+      price: '0',
+      description: '訂閱制內容',
       features: [
-        { name: t('products_page.feature_telemetry'), included: true },
-        { name: t('products_page.feature_kpi'), included: true },
-        { name: t('products_page.feature_lap_data'), included: true },
-        { name: t('products_page.feature_ai_text'), included: false },
-        { name: t('products_page.feature_ai_map'), included: false },
-        { name: t('products_page.feature_prediction'), included: false },
+        { name: '保養部分：電池充電、煞車油、潤滑油、煞車碟片(第1年)' },
+        { name: '調教部分(data)：油門、煞車、轉角、耗電' },
+        { name: '運送物流部分：no' },
       ],
       highlight: false,
     },
     {
-      name: t('products_page.plan_silver_name'),
-      tier: t('products_page.plan_silver_tier'),
-      description: t('products_page.plan_silver_desc'),
+      name: 'Silver',
+      tier: 'USD 1,400',
+      price: '1400',
+      description: '訂閱制內容',
       features: [
-        { name: t('products_page.feature_telemetry'), included: true },
-        { name: t('products_page.feature_kpi'), included: true },
-        { name: t('products_page.feature_lap_data'), included: true },
-        { name: t('products_page.feature_ai_text'), included: true },
-        { name: t('products_page.feature_ai_map'), included: false },
-        { name: t('products_page.feature_prediction'), included: false },
+        { name: '保養部分：電池保固(電池容量低於70%)' },
+        { name: '調教部分(data)：每圈圈數：分成該圈圈速&過彎速度)、懸吊參數調整' },
+        { name: '運送物流部分：免運1次陸運來回' },
       ],
       highlight: true,
     },
     {
-      name: t('products_page.plan_gold_name'),
-      tier: t('products_page.plan_gold_tier'),
-      description: t('products_page.plan_gold_desc'),
+      name: 'Gold',
+      tier: 'USD 2,800',
+      price: '2800',
+      description: '訂閱制內容',
       features: [
-        { name: t('products_page.feature_telemetry'), included: true },
-        { name: t('products_page.feature_kpi'), included: true },
-        { name: t('products_page.feature_lap_data'), included: true },
-        { name: t('products_page.feature_ai_text'), included: true },
-        { name: t('products_page.feature_ai_map'), included: true },
-        { name: t('products_page.feature_prediction'), included: true },
+        { name: '保養部分：輪胎*1' },
+        { name: '調教部分(data)：賽車加速調整' },
+        { name: '運送物流部分：免運3次陸運來回' },
       ],
       highlight: false,
     },
@@ -77,14 +65,14 @@ const AiPlanComparison = () => {
           {plan.highlight && (
             <div className="absolute top-0 -translate-y-1/2 w-full flex justify-center">
               <span className="bg-brand-pink text-white text-xs font-bold px-4 py-1 rounded-full uppercase">
-                {t('products_page.recommended_plan')}
+                Recommended
               </span>
             </div>
           )}
           <h3 className="text-2xl font-bold text-center text-brand-gold">{plan.name}</h3>
           <p className="text-sm text-gray-400 text-center mb-6">{plan.tier}</p>
           <p className="flex-grow text-gray-300 mb-8">{plan.description}</p>
-          <ul role="list" className="space-y-4">
+          <ul role="list" className="space-y-4 text-left">
             {plan.features.map((feature) => (
               <Feature key={feature.name} {...feature} />
             ))}
@@ -95,4 +83,4 @@ const AiPlanComparison = () => {
   );
 };
 
-export default AiPlanComparison; 
+export default AiPlanComparison;
