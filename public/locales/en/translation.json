@@ -210,6 +210,32 @@
                 "title": "AI Strategy Map",
                 "description": "It's not just data; it's strategy. The AI marks ideal braking and turn-in points on the map, translating complex analysis into intuitive on-track commands."
             }
+        },
+        "subscription_plans": {
+            "basic": {
+                "name": "Basic",
+                "tier": "first year for free",
+                "desc": "Subscription Contents",
+                "maint": "Maintenance: Battery charging, brake fluid, lubricant, brake pads (1st year)",
+                "tuning": "Tuning (data): Throttle, brake, steering angle, energy consumption",
+                "logistics": "Logistics: no"
+            },
+            "silver": {
+                "name": "Silver",
+                "tier": "USD 1,400",
+                "desc": "Subscription Contents",
+                "maint": "Maintenance: Battery warranty (capacity below 70%)",
+                "tuning": "Tuning (data): Per-lap metrics (lap time & cornering speed), suspension parameter tuning",
+                "logistics": "Logistics: 1 free round-trip ground shipping"
+            },
+            "gold": {
+                "name": "Gold",
+                "tier": "USD 2,800",
+                "desc": "Subscription Contents",
+                "maint": "Maintenance: 1 set of tires",
+                "tuning": "Tuning (data): Racing acceleration optimization",
+                "logistics": "Logistics: 3 free round-trip ground shipping"
+            }
         }
     },
     "dashboard": {

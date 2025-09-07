@@ -210,6 +210,32 @@
                 "title": "AI 戰術地圖",
                 "description": "不僅是數據，更是策略。AI 會在地圖上標示出理想的煞車與入彎點，將複雜分析轉化為直觀的賽道指令。"
             }
+        },
+        "subscription_plans": {
+            "basic": {
+                "name": "Basic",
+                "tier": "first year for free",
+                "desc": "訂閱制內容",
+                "maint": "保養部分：電池充電、煞車油、潤滑油、煞車碟片(第1年)",
+                "tuning": "調教部分(data)：油門、煞車、轉角、耗電",
+                "logistics": "運送物流部分：no"
+            },
+            "silver": {
+                "name": "Silver",
+                "tier": "USD 1,400",
+                "desc": "訂閱制內容",
+                "maint": "保養部分：電池保固(電池容量低於70%)",
+                "tuning": "調教部分(data)：每圈圈數：分成該圈圈速&過彎速度)、懸吊參數調整",
+                "logistics": "運送物流部分：免運1次陸運來回"
+            },
+            "gold": {
+                "name": "Gold",
+                "tier": "USD 2,800",
+                "desc": "訂閱制內容",
+                "maint": "保養部分：輪胎*1",
+                "tuning": "調教部分(data)：賽車加速調整",
+                "logistics": "運送物流部分：免運3次陸運來回"
+            }
         }
     },
     "partners_page": {

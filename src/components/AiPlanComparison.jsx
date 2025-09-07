@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from 'react-i18next';
 
 const Feature = ({ name }) => (
   <li className="flex items-start space-x-3">
@@ -10,40 +11,38 @@ const Feature = ({ name }) => (
 );
 
 const AiPlanComparison = () => {
+  const { t } = useTranslation();
   const plans = [
     {
-      name: 'Basic',
-      tier: 'first year for free',
-      price: '0',
-      description: '訂閱制內容',
+      name: t('products_page.subscription_plans.basic.name'),
+      tier: t('products_page.subscription_plans.basic.tier'),
+      description: t('products_page.subscription_plans.basic.desc'),
       features: [
-        { name: '保養部分：電池充電、煞車油、潤滑油、煞車碟片(第1年)' },
-        { name: '調教部分(data)：油門、煞車、轉角、耗電' },
-        { name: '運送物流部分：no' },
+        { name: t('products_page.subscription_plans.basic.maint') },
+        { name: t('products_page.subscription_plans.basic.tuning') },
+        { name: t('products_page.subscription_plans.basic.logistics') },
       ],
       highlight: false,
     },
     {
-      name: 'Silver',
-      tier: 'USD 1,400',
-      price: '1400',
-      description: '訂閱制內容',
+      name: t('products_page.subscription_plans.silver.name'),
+      tier: t('products_page.subscription_plans.silver.tier'),
+      description: t('products_page.subscription_plans.silver.desc'),
       features: [
-        { name: '保養部分：電池保固(電池容量低於70%)' },
-        { name: '調教部分(data)：每圈圈數：分成該圈圈速&過彎速度)、懸吊參數調整' },
-        { name: '運送物流部分：免運1次陸運來回' },
+        { name: t('products_page.subscription_plans.silver.maint') },
+        { name: t('products_page.subscription_plans.silver.tuning') },
+        { name: t('products_page.subscription_plans.silver.logistics') },
       ],
       highlight: true,
     },
     {
-      name: 'Gold',
-      tier: 'USD 2,800',
-      price: '2800',
-      description: '訂閱制內容',
+      name: t('products_page.subscription_plans.gold.name'),
+      tier: t('products_page.subscription_plans.gold.tier'),
+      description: t('products_page.subscription_plans.gold.desc'),
       features: [
-        { name: '保養部分：輪胎*1' },
-        { name: '調教部分(data)：賽車加速調整' },
-        { name: '運送物流部分：免運3次陸運來回' },
+        { name: t('products_page.subscription_plans.gold.maint') },
+        { name: t('products_page.subscription_plans.gold.tuning') },
+        { name: t('products_page.subscription_plans.gold.logistics') },
       ],
       highlight: false,
     },
